@@ -1,1 +1,1 @@
-# CMakeFile Generator
+# CMake file Generator
