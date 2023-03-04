@@ -1,4 +1,19 @@
-cmake_minimum_required(VERSION {{project.cmakeVersion}})
+# プロジェクト設定
+
+# project.cmakeVersionMin: cmakeの最低バージョン
+# project.names: プロジェクト名．
+# project.version: プロジェクトのバージョン．
+# project.language: プロジェクトのソースコードの言語．
+# project.defBuildType: デフォルトのビルドタイプ．
+#   "Debug", "Release"等が入る
+# project.policies: CMakeのポリオシー設定の一覧．
+#   要素: {number = "XXXX", value = "NEW|OLD", isGlobal = true|false} (Xは[0,9]の番号)
+# project.includes: CMakeが扱うモジュールのパスの一覧
+# project.packages: プロジェクトが扱うパッケージの一覧．
+#   要素: {name = "package name"}
+# project.subdirecotries: CMakeが辿るプロジェクトのサブディレクトリ
+
+cmake_minimum_required(VERSION {{project.cmakeVersionMin}})
 
 # CMake Project
 project({{project.name}} VERSION {{project.version}} LANGUAGES {{project.language}})
