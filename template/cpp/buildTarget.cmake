@@ -1,9 +1,12 @@
+# ターゲットのビルド設定
+
 # target.isProgram: ターゲットがプログラムか．
-# target.name: プログラム名
-# target.properties: プログラムビルド時のプロパティ
-# target.sources: プログラムのソースコード
-# target.includeDirs: プログラムのインクルードディレクトリ
-# target.libraries: プログラムのライブラリ
+# target.name: ターゲット名
+# target.properties: ターゲットビルド時のプロパティ
+#   要素: {name = "property name", value = "property value"}
+# target.sources: ターゲットのソースコード
+# target.includeDirs: ターゲットのインクルードディレクトリ
+# target.libraries: ターゲットのライブラリ
 
 {% if target.isProgram %}
 add_executable({{target.name}})
