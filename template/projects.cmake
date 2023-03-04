@@ -21,10 +21,10 @@ include({{inc}})
 
 # Packages
 {% for pkg in project.packages %}
-find_package({{pkg.name}} REQUIRED CONFIG REQUIRED)
+find_package({{pkg.name}} REQUIRED)
 {% endfor %}
 
 # Sub directory
 {% for dir in project.subdirecotries %}
-add_subdirectory({{dir}} REQUIRED CONFIG REQUIRED)
+add_subdirectory({{dir}})
 {% endfor %}
