@@ -1,6 +1,6 @@
 set (JINJA2CPP_DEPS_MODE "internal")
 set (JINJA2CPP_BUILD_TESTS FALSE)
-#add_subdirectory(jinja2cpp)
+add_subdirectory(jinja2cpp)
 
 set(INJA_USE_EMBEDDED_JSON ON)
 set(INJA_INSTALL OFF)
