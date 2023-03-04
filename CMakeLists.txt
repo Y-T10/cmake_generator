@@ -16,7 +16,6 @@ find_package(Threads REQUIRED)
 
 add_compile_options(-Wall $<$<CONFIG:Debug>:-g3>)
 set_property(GLOBAL PROPERTY CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD 20)
 set_property(GLOBAL PROPERTY CXX_EXTENSIONS ON)
 
 add_subdirectory(src)
