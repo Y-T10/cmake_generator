@@ -1,0 +1,2 @@
+add_subdirectory(AppMain)
+add_subdirectory(CompRender)
