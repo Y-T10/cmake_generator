@@ -3,27 +3,27 @@
 #include <iostream>
 
 using namespace std;
-using namespace jinja2;
+using namespace inja;
 
-const ValuesMap CreateProjectMap() noexcept {
-    ValuesMap paramMap;
-    paramMap.emplace("cmakeVersionMin", 3.20);
-    paramMap.emplace("names", "");
-    paramMap.emplace("version", "0.0.0");
-    paramMap.emplace("language", "CXX");
-    paramMap.emplace("defBuildType", "Release");
-    paramMap.emplace("policies", ValuesList{});
-    paramMap.emplace("include", ValuesList{});
-    paramMap.emplace("package", ValuesList{});
-    paramMap.emplace("subdirecotrie", ValuesList{});
+const json CreateProjectMap() noexcept {
+    json paramMap;
+    paramMap["cmakeVersionMin"] = 3.20;
+    paramMap["name"] = "";
+    paramMap["version"] = "0.0.0";
+    paramMap["language"] = "CXX";
+    paramMap["defBuildType"] = "Release";
+    paramMap["policies"] = {};
+    paramMap["include"] = {};
+    paramMap["package"] = {};
+    paramMap["subdirecotrie"] = {};
 
-    ValuesMap projectMap;
+    json projectMap;
     projectMap.emplace("project", paramMap);
     return projectMap;
 };
 
 int main(int argc, char* argv[]) {
-    const ValuesMap sampleTest = CreateProjectMap();
+    const json sampleTest = CreateProjectMap();
     CompRender::RenderText(std::cout, "template/projects.template", sampleTest);
     return 0;
 };

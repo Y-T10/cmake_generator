@@ -1,6 +1,6 @@
 #pragma once
 
-#include "jinja2cpp/value.h"
+#include "inja/inja.hpp"
 #include <filesystem>
 #include <ostream>
 
@@ -9,5 +9,5 @@ namespace CompRender {
     /// @param out 出力先
     /// @param props プロパティ
     /// @return out
-    std::ostream& RenderText(std::ostream& out, const  std::filesystem::path& path,  const jinja2::ValuesMap& props) noexcept;
+    std::ostream& RenderText(std::ostream& out, const std::filesystem::path& path,  const inja::json& props) noexcept;
 };
