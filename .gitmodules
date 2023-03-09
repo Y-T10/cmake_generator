@@ -1,0 +1,3 @@
+[submodule "library/inja"]
+	path = library/inja
+	url = https://github.com/Y-T10/inja.gi
