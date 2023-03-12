@@ -3,4 +3,4 @@
 	url = https://github.com/jinja2cpp/Jinja2Cpp
 [submodule "library/inja"]
 	path = library/inja
-	url = https://github.com/pantor/inja.git
+	url = https://github.com/Y-T10/inja.gi
