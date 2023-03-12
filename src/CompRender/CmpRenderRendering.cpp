@@ -1,5 +1,6 @@
 #include "CmpRenderRendering.hpp"
 
+#include <filesystem>
 #include <optional>
 #include <ostream>
 
@@ -7,13 +8,9 @@ using namespace std::filesystem;
 using namespace inja;
 
 namespace CompRender {
-std::ostream& RenderText(std::ostream& out, const  std::filesystem::path& path, const json& props) noexcept {
-    if(!exists(path)){
-        return out;
-    }
-
+std::ostream& RenderText(std::ostream& out, const  std::string& templateName, const json& props) noexcept {
     Environment env;
-    Template renderer = env.parse_template(path.string());
-    return env.render_to(out, renderer, props);;
+    const auto tpl =  env.parse_template(current_path() / "template" / templateName);
+    return env.render_to(out, tpl, props);
 }
 };

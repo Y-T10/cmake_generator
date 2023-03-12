@@ -7,23 +7,20 @@ using namespace inja;
 
 const json CreateProjectMap() noexcept {
     json paramMap;
-    paramMap["cmakeVersionMin"] = 3.20;
-    paramMap["name"] = "";
-    paramMap["version"] = "0.0.0";
-    paramMap["language"] = "CXX";
-    paramMap["defBuildType"] = "Release";
-    paramMap["policies"] = {};
-    paramMap["include"] = {};
-    paramMap["package"] = {};
-    paramMap["subdirecotrie"] = {};
-
-    json projectMap;
-    projectMap.emplace("project", paramMap);
-    return projectMap;
+    paramMap["project"]["cmakeVersionMin"] = 3.20;
+    paramMap["project"]["name"] = "";
+    paramMap["project"]["version"] = "0.0.0";
+    paramMap["project"]["language"] = "CXX";
+    paramMap["project"]["defBuildType"] = "Release";
+    paramMap["project"]["policies"] = {};
+    paramMap["project"]["include"] = {};
+    paramMap["project"]["package"] = {};
+    paramMap["project"]["subdirecotrie"] = {};
+    return paramMap;
 };
 
 int main(int argc, char* argv[]) {
-    const json sampleTest = CreateProjectMap();
-    CompRender::RenderText(std::cout, "template/projects.template", sampleTest);
+    const auto sampleTest = CreateProjectMap();
+    CompRender::RenderText(std::cout, "projects.template", sampleTest);
     return 0;
 };
