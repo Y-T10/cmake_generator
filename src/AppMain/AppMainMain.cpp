@@ -7,7 +7,7 @@ using namespace inja;
 
 const json CreateProjectMap() noexcept {
     json paramMap;
-    paramMap["project"]["cmakeVersionMin"] = 3.20;
+    paramMap["project"]["cmakeVersionMin"] = "3.20";
     paramMap["project"]["name"] = "";
     paramMap["project"]["version"] = "0.0.0";
     paramMap["project"]["language"] = "CXX";
