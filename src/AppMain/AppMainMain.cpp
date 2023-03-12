@@ -12,10 +12,10 @@ const json CreateProjectMap() noexcept {
     paramMap["project"]["version"] = "0.0.0";
     paramMap["project"]["language"] = "CXX";
     paramMap["project"]["defBuildType"] = "Release";
-    paramMap["project"]["policies"] = {};
-    paramMap["project"]["include"] = {};
-    paramMap["project"]["package"] = {};
-    paramMap["project"]["subdirecotrie"] = {};
+    paramMap["project"]["policies"] = json::array_t{};
+    paramMap["project"]["includes"] = json::array_t{};
+    paramMap["project"]["packages"] = json::array_t{};
+    paramMap["project"]["subdirecotries"] = json::array_t{};
     return paramMap;
 };
 
