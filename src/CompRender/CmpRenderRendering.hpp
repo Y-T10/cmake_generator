@@ -1,5 +1,6 @@
 #pragma once
 
+#define INJA_NOEXCEPTION
 #include "inja/inja.hpp"
 #include <string>
 #include <ostream>
