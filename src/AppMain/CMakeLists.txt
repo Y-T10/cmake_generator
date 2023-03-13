@@ -12,5 +12,6 @@ AppMainMain.cpp
 # パッケージライブラリなら
 target_link_libraries(AppMain PRIVATE
 CmpRender
-qrqma::qrqma
+pantor::inja
+fmt::fmt
 )
