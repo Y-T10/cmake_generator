@@ -13,4 +13,5 @@ AppMainMain.cpp
 target_link_libraries(AppMain PRIVATE
 CmpRender
 pantor::inja
+fmt::fmt
 )
