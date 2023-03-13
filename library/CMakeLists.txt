@@ -6,3 +6,5 @@ set(INJA_BUILD_TESTS OFF)
 set(BUILD_BENCHMARK OFF)
 set(COVERALLS OFF)
 add_subdirectory(inja)
+
+add_subdirectory(fmt)
