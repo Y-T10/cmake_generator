@@ -1,7 +1,7 @@
 # CMakeTGen
 
 CMakeTGen は、CMake で利用するファイルを雛形から生成するツールです．
-プログラムはdraftブランチにて開発しています。
+プログラムは[draft](https://github.com/Y-T10/cmake_generator/tree/draft)ブランチにて開発しています。
 
 ## プロジェクトの状態
 
