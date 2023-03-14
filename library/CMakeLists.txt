@@ -12,3 +12,5 @@ set(COVERALLS OFF)
 add_subdirectory(inja)
 
 add_subdirectory(fmt)
+
+add_subdirectory(cppopts)
