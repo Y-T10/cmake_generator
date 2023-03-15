@@ -60,6 +60,17 @@ void PrintHelp(const Options& opt, const string& dashOptFmt = "", const string& 
     fmt::print(FMT_STRING("{:s}"), helpOpt.help());
 }
 
+// 予期せぬ引数に対するエラーを出力する
+void PrintUmmatchedError(const ParseResult& result, const string& programName) noexcept {
+    const auto unmatchedList = accumulate(
+        result.unmatched().begin(), result.unmatched().end(),
+        string(""), [](const string& l, const string& r){
+            return fmt::format(FMT_STRING("{:s}\"{:s}\" "), l, r);
+        });
+    fmt::print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), programName, unmatchedList);
+    fmt::print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), programName, unmatchedList);
+}
+
 Options CreateAppArgParser(const string& programName, const string& desc) noexcept {
     Options opt(programName, fmt::format(FMT_STRING("{:s}: {:s}"), programName, desc));
     opt.allow_unrecognised_options();
@@ -77,13 +88,7 @@ int main(int argc, char* argv[]) {
     const auto result = opt.parse(argc, argv);
 
     if(!result.unmatched().empty()) {
-        const auto unmatchedList = accumulate(
-            result.unmatched().begin(), result.unmatched().end(),
-            string(""), [](const string& l, const string& r){
-                return fmt::format(FMT_STRING("{:s}\"{:s}\" "), l, r);
-            });
-        fmt::print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), opt.program(), unmatchedList);
-        fmt::print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), opt.program(), unmatchedList);
+        PrintUmmatchedError(result, opt.program());
         return 1;
     }
 
