@@ -60,13 +60,13 @@ void PrintHelp(const Options& opt, const string& dashOptFmt = "", const string& 
 }
 
 Options CreateAppArgParser(const string& programName, const string& desc) noexcept {
-    Options opt(programName, desc);
+    Options opt(programName, fmt::format(FMT_STRING("{:s}: {:s}"), programName, desc));
     opt.allow_unrecognised_options();
     opt.show_positional_help();
     opt.add_options()
         ("h,help", "print this help")
-        ("type", "a type of code generated");
-    opt.parse_positional({"<type>"});
+        ("type", "a type of code generated", value<string>()->default_value(""));
+    opt.parse_positional("type");
     return opt;
 }
 
