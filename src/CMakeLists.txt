@@ -1,2 +1,2 @@
-add_subdirectory(AppMain)
+add_subdirectory(AppTCM)
 add_subdirectory(CompRender)

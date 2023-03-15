@@ -5,7 +5,7 @@ set_target_properties(tcm PROPERTIES
 
 # Target sources
 target_sources(tcm PRIVATE
-AppMainMain.cpp
+AppTCMMain.cpp
 )
 
 # Target libraries
