@@ -1,0 +1,9 @@
+[submodule "library/inja"]
+	path = library/inja
+	url = https://github.com/Y-T10/inja.git
+[submodule "library/fmt"]
+	path = library/fmt
+	url = https://github.com/fmtlib/fmt.git
+[submodule "library/cppopts"]
+	path = library/cppopts
+	url = https://github.com/jarro2783/cxxopts.git
