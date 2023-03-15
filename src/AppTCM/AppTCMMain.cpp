@@ -45,15 +45,19 @@ const json CreateProjectParam(const string& name, const Version& version, const 
     return projectProps;
 };
 
-// main関数のパラメータをパースする
-const AppMain::AppOption ParseAppArgs(const int argc, const char* argv[]) noexcept {
-    assert(argc >= 0);
-    const string programName = (argc > 0)? "tcm": path(argv[0]).filename().string();
-    const int paramArgc = (argc > 0)? argc - 1: 0;
-    const char** paramArgv = (argc > 0)? (argv + 1): argv;
-    assert(paramArgv[paramArgc] == nullptr);
-    return AppMain::ParseOptions(programName, "テンプレートファイルからCMakeファイルを生成する．", paramArgc, paramArgv);
-};
+/**
+ * @brief ヘルプを出力する
+ * @param opt オプションオブジェクト
+ * @param dashOptFmt ダッシュ付き引数の書式
+ * @param spaceOptsFmt ダッシュなし引数の書式
+ */
+void PrintHelp(const Options& opt, const string& dashOptFmt = "", const string& spaceOptsFmt = "") noexcept {
+    Options helpOpt = opt;
+    helpOpt.custom_help(dashOptFmt);
+    helpOpt.positional_help(spaceOptsFmt);
+
+    fmt::print(FMT_STRING("{:s}"), helpOpt.help());
+}
 
 Options CreateAppArgParser(const string& programName, const string& desc) noexcept {
     Options opt(programName, desc);
@@ -82,7 +86,7 @@ int main(int argc, char* argv[]) {
     }
 
     if(result.count("help") || result.arguments().empty()){
-        fmt::print(FMT_STRING("{:s}\n"), opt.help());
+        PrintHelp(opt, "[-h/--help]", "<type> [<args>]");
         return 0;
     }
 
