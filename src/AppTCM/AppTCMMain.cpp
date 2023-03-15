@@ -3,12 +3,14 @@
 #include <iostream>
 #include <cstdint>
 #include "fmt/format.h"
+#include "cxxopts.hpp"
 #include "AppTCMOptions.hpp"
 #include <filesystem>
 #include <cassert>
 
 using namespace std;
 using namespace inja;
+using namespace cxxopts;
 using namespace std::filesystem;
 
 // セマンティックバージョンを表す型
@@ -51,8 +53,15 @@ const AppMain::AppOption ParseAppArgs(const int argc, const char* argv[]) noexce
     return AppMain::ParseOptions(programName, "テンプレートファイルからCMakeファイルを生成する．", paramArgc, paramArgv);
 };
 
-const cxxopts::Options CreateAppArgParser(const int argc, const char* argv[]) noexcept {
-    
+Options CreateAppArgParser(const int argc, const char* argv[]) noexcept {
+    const string programName = (argc > 0)? "tcm": path(argv[0]).filename().string();
+
+    Options opt(programName, "Generat CMake code depending on options.");
+    opt.add_options()
+        ("h,help", "print this help")
+        ("<type>", "a type of code generated");
+    opt.parse_positional({"<type>"});
+    return opt;
 }
 
 int main(int argc, char* argv[]) {
