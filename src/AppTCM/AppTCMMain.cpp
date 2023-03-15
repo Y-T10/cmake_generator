@@ -8,6 +8,7 @@
 #include <filesystem>
 #include <cassert>
 #include <numeric>
+#include <string>
 
 using namespace std;
 using namespace inja;
@@ -24,7 +25,7 @@ struct Version {
 
 // バージョンを文字列に変える関数
 const std::string toString(const Version& v) noexcept {
-    return fmt::format("{:d}.{:d}.{:d}", v.major, v.minor, v.patch);
+    return fmt::format(FMT_STRING("{:d}.{:d}.{:d}"), v.major, v.minor, v.patch);
 }
 
 // projectのパラメータ
