@@ -7,11 +7,13 @@
 #include "AppTCMOptions.hpp"
 #include <filesystem>
 #include <cassert>
+#include <numeric>
 
 using namespace std;
 using namespace inja;
 using namespace cxxopts;
 using namespace std::filesystem;
+using namespace std::string_literals;
 
 // セマンティックバージョンを表す型
 struct Version {
@@ -65,10 +67,23 @@ Options CreateAppArgParser(const int argc, const char* argv[]) noexcept {
 }
 
 int main(int argc, char* argv[]) {
-    const auto opt = ParseOptions();
-    const auto args = ParseAppArgs(argc, argv);
+    auto opt = CreateAppArgParser(
+        (argv[0]==nullptr)? "tcm": path(argv[0]).filename(),
+        "Generat CMake code depending on options.");
+    const auto result = opt.parse(argc, argv);
 
-    if(args.count("h")){
+    if(!result.unmatched().empty()) {
+        const auto unmatchedList = accumulate(
+            result.unmatched().begin(), result.unmatched().end(),
+            string(""), [](const string& l, const string& r){ return  l + r + " "s;});
+        fmt::print(stderr, "{:s}: unrecognized parameter -- {:s}", opt.program(), unmatchedList);
+        fmt::print(stderr, "Try \'{:s} --help\' for more information.", opt.program(), unmatchedList);
+        return 1;
+    }
+
+    if(result.count("help") || result.arguments().empty()){
+        fmt::print(FMT_STRING("{:s}\n"), opt.help());
+        return 0;
     }
 
     CompRender::RenderText(std::cout, "project.tpl", json::object({
