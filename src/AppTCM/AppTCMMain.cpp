@@ -79,9 +79,11 @@ int main(int argc, char* argv[]) {
     if(!result.unmatched().empty()) {
         const auto unmatchedList = accumulate(
             result.unmatched().begin(), result.unmatched().end(),
-            string(""), [](const string& l, const string& r){ return  l + r + " "s;});
-        fmt::print(stderr, "{:s}: unrecognized parameter -- {:s}", opt.program(), unmatchedList);
-        fmt::print(stderr, "Try \'{:s} --help\' for more information.", opt.program(), unmatchedList);
+            string(""), [](const string& l, const string& r){
+                return fmt::format(FMT_STRING("{:s}\"{:s}\" "), l, r);
+            });
+        fmt::print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), opt.program(), unmatchedList);
+        fmt::print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), opt.program(), unmatchedList);
         return 1;
     }
 
