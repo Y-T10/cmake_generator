@@ -55,13 +55,13 @@ const AppMain::AppOption ParseAppArgs(const int argc, const char* argv[]) noexce
     return AppMain::ParseOptions(programName, "テンプレートファイルからCMakeファイルを生成する．", paramArgc, paramArgv);
 };
 
-Options CreateAppArgParser(const int argc, const char* argv[]) noexcept {
-    const string programName = (argc > 0)? "tcm": path(argv[0]).filename().string();
-
-    Options opt(programName, "Generat CMake code depending on options.");
+Options CreateAppArgParser(const string& programName, const string& desc) noexcept {
+    Options opt(programName, desc);
+    opt.allow_unrecognised_options();
+    opt.show_positional_help();
     opt.add_options()
         ("h,help", "print this help")
-        ("<type>", "a type of code generated");
+        ("type", "a type of code generated");
     opt.parse_positional({"<type>"});
     return opt;
 }
