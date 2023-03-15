@@ -92,9 +92,19 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    if(result.count("help") || result.arguments().empty()){
+    if(!!result.count("help") || result.arguments().empty()){
         PrintHelp(opt, "[-h/--help]", "<type> [<args>]");
         return 0;
+    }
+
+    if(result.arguments().back().key() != "type") {
+        fmt::print(stderr, FMT_STRING("{:s}: code type is not specified.\n"), opt.program());
+        return 1;
+    }
+
+    const auto codeType = result.arguments().back().value();
+    if(codeType == "project") {
+        // return DoGenerate(ArgParseProj, LoadTplProj);
     }
 
     CompRender::RenderText(std::cout, "project.tpl", json::object({
