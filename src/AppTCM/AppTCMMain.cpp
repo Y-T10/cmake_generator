@@ -15,6 +15,7 @@ using namespace inja;
 using namespace cxxopts;
 using namespace std::filesystem;
 using namespace std::string_literals;
+using namespace fmt;
 
 // セマンティックバージョンを表す型
 struct Version {
@@ -25,7 +26,7 @@ struct Version {
 
 // バージョンを文字列に変える関数
 const std::string toString(const Version& v) noexcept {
-    return fmt::format(FMT_STRING("{:d}.{:d}.{:d}"), v.major, v.minor, v.patch);
+    return format(FMT_STRING("{:d}.{:d}.{:d}"), v.major, v.minor, v.patch);
 }
 
 // projectのパラメータ
@@ -57,7 +58,7 @@ void PrintHelp(const Options& opt, const string& dashOptFmt = "", const string& 
     helpOpt.custom_help(dashOptFmt);
     helpOpt.positional_help(spaceOptsFmt);
 
-    fmt::print(FMT_STRING("{:s}"), helpOpt.help());
+    print(FMT_STRING("{:s}"), helpOpt.help());
 }
 
 // 予期せぬ引数に対するエラーを出力する
@@ -65,14 +66,14 @@ void PrintUmmatchedError(const ParseResult& result, const string& programName) n
     const auto unmatchedList = accumulate(
         result.unmatched().begin(), result.unmatched().end(),
         string(""), [](const string& l, const string& r){
-            return fmt::format(FMT_STRING("{:s}\"{:s}\" "), l, r);
+            return format(FMT_STRING("{:s}\"{:s}\" "), l, r);
         });
-    fmt::print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), programName, unmatchedList);
-    fmt::print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), programName, unmatchedList);
+    print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), programName, unmatchedList);
+    print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), programName, unmatchedList);
 }
 
 Options CreateAppArgParser(const string& programName, const string& desc) noexcept {
-    Options opt(programName, fmt::format(FMT_STRING("{:s}: {:s}"), programName, desc));
+    Options opt(programName, format(FMT_STRING("{:s}: {:s}"), programName, desc));
     opt.allow_unrecognised_options();
     opt.add_options()
         ("h,help", "print this help")
@@ -98,7 +99,7 @@ int main(int argc, char* argv[]) {
     }
 
     if(result.arguments().back().key() != "type") {
-        fmt::print(stderr, FMT_STRING("{:s}: code type is not specified.\n"), opt.program());
+        print(stderr, FMT_STRING("{:s}: code type is not specified.\n"), opt.program());
         return 1;
     }
 
