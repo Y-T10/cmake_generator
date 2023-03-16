@@ -107,12 +107,8 @@ int main(int argc, char* argv[]) {
     }else if(codeType == "binary" || codeType == "bin") {
         // DoGenerate(ArgParseBin, LoadTplBin, resutl);
     }
-    if(codeType == "library" || codeType == "lib") {
-        // return DoGenerate(ArgParseLib, LoadTplLib, resutl);
-    }
-    if(codeType == "binary" || codeType == "bin") {
-        // return DoGenerate(ArgParseBin, LoadTplBin, resutl);
-    }
+
+    // GenerateAddSubdir();
 
     CompRender::RenderText(std::cout, "project.tpl", json::object({
         {"cmakeVersionMin", CmpVer::toString({0,0,0})},
