@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
     }
 
     if(!!result.count("help") || result.arguments().empty()){
-        PrintHelp(opt, "[-h/--help]", "<type> [<args>]");
+        PrintHelp(opt, "[options]", "");
         return 0;
     }
 
