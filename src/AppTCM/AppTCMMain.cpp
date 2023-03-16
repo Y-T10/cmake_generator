@@ -100,8 +100,14 @@ int main(int argc, char* argv[]) {
     }
 
     const auto codeType = result.arguments().back().value();
-    if(codeType == "project") {
+    if(codeType == "project" || codeType == "proj") {
         // return DoGenerate(ArgParseProj, LoadTplProj, resutl);
+    }
+    if(codeType == "library" || codeType == "lib") {
+        // return DoGenerate(ArgParseLib, LoadTplLib, resutl);
+    }
+    if(codeType == "binary" || codeType == "bin") {
+        // return DoGenerate(ArgParseBin, LoadTplBin, resutl);
     }
 
     CompRender::RenderText(std::cout, "project.tpl", json::object({
