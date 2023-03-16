@@ -66,8 +66,7 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
     opt.allow_unrecognised_options();
     opt.add_options()
         ("h,help", "print this help")
-        ("type", "a type of code generated", value<string>()->default_value(""));
-    opt.parse_positional("type");
+        ("t,type", "type of code generated", value<string>()->default_value(""));
     return opt;
 }
 
