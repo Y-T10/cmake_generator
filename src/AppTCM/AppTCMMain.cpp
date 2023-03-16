@@ -125,20 +125,5 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    const auto codeType = result.arguments().back().value();
-    if(codeType == "project" || codeType == "proj") {
-        // DoGenerate(ArgParseProj, LoadTplProj, resutl);
-    }else if(codeType == "library" || codeType == "lib") {
-        // DoGenerate(ArgParseLib, LoadTplLib, resutl);
-    }else if(codeType == "binary" || codeType == "bin") {
-        // DoGenerate(ArgParseBin, LoadTplBin, resutl);
-    }
-
-    // GenerateAddSubdir();
-
-    CompRender::RenderText(std::cout, "project.tpl", json::object({
-        {"cmakeVersionMin", CmpVer::toString({0,0,0})},
-        {"project", CreateProjectParam("", {0,0,0}, "CXX", "Release")}
-    }));
     return 0;
 };
