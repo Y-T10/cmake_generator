@@ -101,7 +101,11 @@ int main(int argc, char* argv[]) {
 
     const auto codeType = result.arguments().back().value();
     if(codeType == "project" || codeType == "proj") {
-        // return DoGenerate(ArgParseProj, LoadTplProj, resutl);
+        // DoGenerate(ArgParseProj, LoadTplProj, resutl);
+    }else if(codeType == "library" || codeType == "lib") {
+        // DoGenerate(ArgParseLib, LoadTplLib, resutl);
+    }else if(codeType == "binary" || codeType == "bin") {
+        // DoGenerate(ArgParseBin, LoadTplBin, resutl);
     }
     if(codeType == "library" || codeType == "lib") {
         // return DoGenerate(ArgParseLib, LoadTplLib, resutl);
