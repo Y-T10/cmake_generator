@@ -7,6 +7,8 @@
 #include "AppTCMOptions.hpp"
 #include "CmpVerVersion.hpp"
 #include <filesystem>
+#include <functional>
+#include <optional>
 #include <cassert>
 #include <numeric>
 #include <string>
@@ -76,6 +78,19 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
     opt.add_options("library/binary")
         ("lib", "depending libray name in CMake", value<string>()->default_value(""));
     return opt;
+}
+
+void DoGenerate(
+const function<const optional<json>(const ParseResult&)>& opt2prop,
+const function<void(const json&, ostream&)>& codeGenerator,
+const ParseResult& resutl, ostream& out) noexcept{
+    assert(opt2prop);
+    assert(codeGenerator);
+    const auto prop = opt2prop(resutl);
+    if(!prop){
+        return;
+    }
+    codeGenerator(*prop, out);
 }
 
 int main(int argc, char* argv[]) {
