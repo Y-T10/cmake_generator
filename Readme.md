@@ -10,7 +10,7 @@ CMakeTGen は、CMake で利用するファイルを雛形から生成するツ�
 ## 使用例
 プロジェクト`newProject`のCMakeファイルを生成する．
 ```bash
-tcm -t proj -n "newProject" -r "3.20.0" -v "0.0.0" -l "CXX" -b "Release"
+tcm -t proj -n "newProject" -r "3.20.0" -v "0.0.0" -l "CXX" -bt "Release"
 ```
 
 Threadライブライに依存するライブラリ`newLibrary`のCMakeファイルを生成する．
