@@ -11,5 +11,5 @@ namespace AppMain {
     const AppOption ParseOptions(const std::string& name, const std::string& desc, const int argc, const char* argv[]) noexcept;
 
     /// アプリケーションの引数を扱うオブジェクトを返す
-    const cxxopts::Options CreateAppOptions(const string& name, const string& desc) noexcept;
+    const cxxopts::Options CreateAppOptions(const std::string& name, const std::string& desc) noexcept;
 }

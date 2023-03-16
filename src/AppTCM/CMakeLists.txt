@@ -5,14 +5,16 @@ set_target_properties(tcm PROPERTIES
 
 # Target sources
 target_sources(tcm PRIVATE
-AppMainMain.cpp
+AppTCMMain.cpp
 )
 
 # Target libraries
 # パッケージライブラリなら
 target_link_libraries(tcm PRIVATE
 CmpRender
+CmpVer
 pantor::inja
 fmt::fmt
 cxxopts::cxxopts
+AppCodeGen
 )
