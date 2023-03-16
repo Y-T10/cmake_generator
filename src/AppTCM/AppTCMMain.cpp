@@ -6,6 +6,7 @@
 #include "cxxopts.hpp"
 #include "AppTCMOptions.hpp"
 #include "CmpVerVersion.hpp"
+#include "AppCGenProject.hpp"
 #include <filesystem>
 #include <functional>
 #include <optional>
@@ -70,11 +71,7 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
         ("h,help", "print this help")
         ("t,type", "type of code generated", value<string>()->default_value(""))
         ("n,name", "project/library/binary name", value<string>()->default_value(""));
-    opt.add_options("project")
-        ("root", "specify root project with CMake version", value<string>()->default_value(""))
-        ("ver", "project version", value<string>()->default_value(""))
-        ("lang", "project programming language", value<string>()->default_value(""))
-        ("bt", "project default build type", value<string>()->default_value(""));
+    AppCGen::OptionProj(opt);
     opt.add_options("library/binary")
         ("lib", "depending libray name in CMake", value<string>()->default_value(""));
     return opt;
@@ -93,6 +90,20 @@ const ParseResult& resutl, ostream& out) noexcept{
     codeGenerator(*prop, out);
 }
 
+const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
+    const auto codeType = result["type"].as<string>();
+    if(codeType == "project" || codeType == "proj") {
+        DoGenerate(AppCGen::ArgParseProj, AppCGen::LoadTplProj, result, out);
+    }else if(codeType == "library" || codeType == "lib") {
+        // DoGenerate(ArgParseLib, LoadTplLib, resutl);
+    }else if(codeType == "binary" || codeType == "bin") {
+        // DoGenerate(ArgParseBin, LoadTplBin, resutl);
+    }
+
+    // GenerateAddSubdir();
+    return true;
+}
+
 int main(int argc, char* argv[]) {
     auto opt = CreateAppArgParser(
         (argv[0]==nullptr)? "tcm": path(argv[0]).filename(),
@@ -109,8 +120,8 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    if(result.arguments().back().key() != "type") {
-        print(stderr, FMT_STRING("{:s}: code type is not specified.\n"), opt.program());
+    if(!GenerateCode(result, cout)){
+        print(stderr, FMT_STRING("{:s}: code generation failed.\n"), opt.program());
         return 1;
     }
 
