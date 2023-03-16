@@ -5,6 +5,7 @@
 #include "fmt/format.h"
 #include "cxxopts.hpp"
 #include "AppTCMOptions.hpp"
+#include "CmpVerVersion.hpp"
 #include <filesystem>
 #include <cassert>
 #include <numeric>
@@ -17,20 +18,8 @@ using namespace std::filesystem;
 using namespace std::string_literals;
 using namespace fmt;
 
-// セマンティックバージョンを表す型
-struct Version {
-    uint8_t major = 0;
-    uint8_t minor = 0;
-    uint8_t patch = 0;
-};
-
-// バージョンを文字列に変える関数
-const std::string toString(const Version& v) noexcept {
-    return format(FMT_STRING("{:d}.{:d}.{:d}"), v.major, v.minor, v.patch);
-}
-
 // projectのパラメータ
-const json CreateProjectParam(const string& name, const Version& version, const string& lang, const string& buildType) noexcept {
+const json CreateProjectParam(const string& name, const CmpVer::Version& version, const string& lang, const string& buildType) noexcept {
     const auto policies = json::array({
         json::object({{"number", "0076"}, {"value", "NEW"}, {"isGlobal", true}}),
         json::object({{"number", "0128"}, {"value", "NEW"}, {"isGlobal", true}}),
@@ -39,7 +28,7 @@ const json CreateProjectParam(const string& name, const Version& version, const 
     });
     const auto projectProps = json::object({
         {"name", name},
-        {"version", toString(version)},
+        {"version", CmpVer::toString(version)},
         {"lang", lang},
         {"policies", policies},
         {"buildType", buildType}
@@ -109,7 +98,7 @@ int main(int argc, char* argv[]) {
     }
 
     CompRender::RenderText(std::cout, "project.tpl", json::object({
-        {"cmakeVersionMin", toString({0,0,0})},
+        {"cmakeVersionMin", CmpVer::toString({0,0,0})},
         {"project", CreateProjectParam("", {0,0,0}, "CXX", "Release")}
     }));
     return 0;
