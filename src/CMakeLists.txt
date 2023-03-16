@@ -1,2 +1,3 @@
 add_subdirectory(AppTCM)
 add_subdirectory(CompRender)
+add_subdirectory(CompVersion)
