@@ -101,7 +101,7 @@ int main(int argc, char* argv[]) {
 
     const auto codeType = result.arguments().back().value();
     if(codeType == "project") {
-        // return DoGenerate(ArgParseProj, LoadTplProj);
+        // return DoGenerate(ArgParseProj, LoadTplProj, resutl);
     }
 
     CompRender::RenderText(std::cout, "project.tpl", json::object({
