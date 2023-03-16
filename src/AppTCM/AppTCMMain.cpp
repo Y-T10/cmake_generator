@@ -69,12 +69,12 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
         ("t,type", "type of code generated", value<string>()->default_value(""))
         ("n,name", "project/library/binary name", value<string>()->default_value(""));
     opt.add_options("project")
-        ("r,root", "specify root project with CMake version", value<string>()->default_value(""))
-        ("v,version", "project version", value<string>()->default_value(""))
-        ("l,language", "project programming language", value<string>()->default_value(""))
-        ("b,buildType", "project default build type", value<string>()->default_value(""));
+        ("root", "specify root project with CMake version", value<string>()->default_value(""))
+        ("ver", "project version", value<string>()->default_value(""))
+        ("lang", "project programming language", value<string>()->default_value(""))
+        ("bt", "project default build type", value<string>()->default_value(""));
     opt.add_options("library/binary")
-        ("l,library", "depending libray name in CMake", value<string>()->default_value(""));
+        ("lib", "depending libray name in CMake", value<string>()->default_value(""));
     return opt;
 }
 
