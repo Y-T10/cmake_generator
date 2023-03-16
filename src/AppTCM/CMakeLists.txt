@@ -12,6 +12,7 @@ AppTCMMain.cpp
 # パッケージライブラリなら
 target_link_libraries(tcm PRIVATE
 CmpRender
+CmpVer
 pantor::inja
 fmt::fmt
 cxxopts::cxxopts
