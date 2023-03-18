@@ -7,6 +7,7 @@
 #include "AppTCMOptions.hpp"
 #include "CmpVerVersion.hpp"
 #include "AppCGenProject.hpp"
+#include "AppCGenLibrary.hpp"
 #include <filesystem>
 #include <functional>
 #include <optional>
@@ -72,8 +73,7 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
         ("t,type", "type of code generated", value<string>()->default_value(""))
         ("n,name", "project/library/binary name", value<string>()->default_value(""));
     AppCGen::OptionProj(opt);
-    opt.add_options("library/binary")
-        ("lib", "depending libray name in CMake", value<string>()->default_value(""));
+    AppCGen::OptionLib(opt);
     return opt;
 }
 
@@ -95,7 +95,7 @@ const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     if(codeType == "project" || codeType == "proj") {
         DoGenerate(AppCGen::ArgParseProj, AppCGen::LoadTplProj, result, out);
     }else if(codeType == "library" || codeType == "lib") {
-        // DoGenerate(ArgParseLib, LoadTplLib, resutl);
+        DoGenerate(AppCGen::ArgParseLib, AppCGen::LoadTplLib, result, out);
     }else if(codeType == "binary" || codeType == "bin") {
         // DoGenerate(ArgParseBin, LoadTplBin, resutl);
     }
