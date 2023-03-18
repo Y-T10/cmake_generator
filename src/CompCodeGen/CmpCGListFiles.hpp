@@ -5,7 +5,7 @@
 #include <regex>
 #include "inja/inja.hpp"
 
-namespace CmpCGListFiles {
+namespace CmpCG {
     /**
      * ディレクトリから正規表現とマッチするファイル名を返す
      * @param dir ディレクトリ

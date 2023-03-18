@@ -19,7 +19,7 @@ const json toJSON(const std::vector<string>& strings){
 }
 
 const json CreateTargetParam(const ParseResult& result) noexcept {
-    const auto sourceFiles = CmpCGListFiles::ListFilesInDir(
+    const auto sourceFiles = CmpCG::ListFilesInDir(
         std::filesystem::current_path(),
         regex(R"(^[\w\-\.]+\.(c\+\+|cxx|cc|cpp)$)")
     );

@@ -4,7 +4,7 @@ using namespace std;
 using namespace std::filesystem;
 using namespace inja;
 
-namespace CmpCGListFiles {
+namespace CmpCG {
 const optional<json::array_t>  ListFilesInDir(const path& dir, const regex& reg) noexcept {
     if(!is_directory(dir)){
         return nullopt;
