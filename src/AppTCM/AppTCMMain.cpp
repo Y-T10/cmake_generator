@@ -6,8 +6,8 @@
 #include "cxxopts.hpp"
 #include "AppTCMOptions.hpp"
 #include "CmpVerVersion.hpp"
-#include "AppCGenProject.hpp"
-#include "AppCGenLibrary.hpp"
+#include "CmpCGProject.hpp"
+#include "CmpCGLibrary.hpp"
 #include <filesystem>
 #include <functional>
 #include <optional>
@@ -72,8 +72,8 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
         ("h,help", "print this help")
         ("t,type", "type of code generated", value<string>()->default_value(""))
         ("n,name", "project/library/binary name", value<string>()->default_value(""));
-    AppCGen::OptionProj(opt);
-    AppCGen::OptionLib(opt);
+    CmpCG::OptionProj(opt);
+    CmpCG::OptionLib(opt);
     return opt;
 }
 
@@ -93,9 +93,9 @@ const ParseResult& resutl, ostream& out) noexcept{
 const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     const auto codeType = result["type"].as<string>();
     if(codeType == "project" || codeType == "proj") {
-        DoGenerate(AppCGen::ArgParseProj, AppCGen::LoadTplProj, result, out);
+        DoGenerate(CmpCG::ArgParseProj, CmpCG::LoadTplProj, result, out);
     }else if(codeType == "library" || codeType == "lib") {
-        DoGenerate(AppCGen::ArgParseLib, AppCGen::LoadTplLib, result, out);
+        DoGenerate(CmpCG::ArgParseLib, CmpCG::LoadTplLib, result, out);
     }else if(codeType == "binary" || codeType == "bin") {
         // DoGenerate(ArgParseBin, LoadTplBin, resutl);
     }

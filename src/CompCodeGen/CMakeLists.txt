@@ -2,9 +2,9 @@ add_library(AppCodeGen)
 
 # Target sources
 target_sources(AppCodeGen PRIVATE
-AppCGenProject.cpp
-AppCGenLibrary.cpp
-AppCGListFiles.cpp
+CmpCGProject.cpp
+CmpCGLibrary.cpp
+CmpCGListFiles.cpp
 )
 
 target_include_directories(AppCodeGen PUBLIC

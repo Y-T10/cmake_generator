@@ -5,7 +5,7 @@
 #include "inja/inja.hpp"
 #include <ostream>
 
-namespace AppCGen {
+namespace CmpCG {
     /// @brief プロジェクト関係のオプションを設定する
     /// @param opt オプションオブジェクト
     void OptionProj(cxxopts::Options& opt) noexcept;

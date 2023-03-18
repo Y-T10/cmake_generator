@@ -1,4 +1,4 @@
-#include "AppCGenProject.hpp"
+#include "CmpCGProject.hpp"
 
 #include <string>
 #include "CmpRenderRendering.hpp"
@@ -26,7 +26,7 @@ const json CreateProjectParam(const ParseResult& result) noexcept {
 };
 }
 
-namespace AppCGen {
+namespace CmpCG {
 void OptionProj(Options& opt) noexcept {
     opt.add_options("project")
         ("root", "specify root project with CMake version", value<string>()->default_value(""))

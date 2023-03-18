@@ -1,9 +1,9 @@
-#include "AppCGenLibrary.hpp"
+#include "CmpCGLibrary.hpp"
 
 #include <algorithm>
 #include <string>
 #include "CmpRenderRendering.hpp"
-#include "AppCGListFiles.hpp"
+#include "CmpCGListFiles.hpp"
 
 using namespace cxxopts;
 using namespace inja;
@@ -19,7 +19,7 @@ const json toJSON(const std::vector<string>& strings){
 }
 
 const json CreateTargetParam(const ParseResult& result) noexcept {
-    const auto sourceFiles = AppCGListFiles::ListFilesInDir(
+    const auto sourceFiles = CmpCGListFiles::ListFilesInDir(
         std::filesystem::current_path(),
         regex(R"(^[\w\-\.]+\.(c\+\+|cxx|cc|cpp)$)")
     );
@@ -37,7 +37,7 @@ const json CreateTargetParam(const ParseResult& result) noexcept {
 };
 }
 
-namespace AppCGen {
+namespace CmpCG {
 void OptionLib(Options& opt) noexcept {
     opt.add_options("library")
         ("lib", "depending libray name in CMake", value<std::vector<string>>()->default_value({}));
