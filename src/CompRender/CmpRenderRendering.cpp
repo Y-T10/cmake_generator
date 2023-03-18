@@ -59,10 +59,19 @@ const path FindTemplateFile(const std::string& templateName, const path& additio
 }
 
 namespace CompRender {
-std::ostream& RenderText(std::ostream& out, const  std::string& templateName, const json& props) noexcept {
+std::ostream& RenderText(
+std::ostream& out,
+const std::string& templateName,
+const json& props,
+const path& additionalSearchDir) noexcept {
     auto env = CreateCustomEnv();
-    const auto filename = fmt::format(FMT_STRING("{:s}.tpl"), templateName);
-    const auto tpl =  env.parse_template(current_path() / "template" / filename);
+
+    const auto templateFile = FindTemplateFile(templateName, additionalSearchDir);
+    if(templateFile.empty()){
+        return out;
+    }
+
+    const auto tpl =  env.parse_template(templateFile);
     return env.render_to(out, tpl, props);
 }
 };
