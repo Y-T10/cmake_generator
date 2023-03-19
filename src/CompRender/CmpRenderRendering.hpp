@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <string>
 #include <ostream>
+#include <vector>
 
 namespace CompRender {
     /// @brief propsを用いて生成したコードをストリームに書き出す
@@ -15,5 +16,5 @@ namespace CompRender {
     std::ostream& out,
     const std::string& templateName,
     const inja::json& props,
-    const std::filesystem::path& additionalSearchDir = "") noexcept;
+    const std::vector<std::filesystem::path>& additionalSearchDir = {}) noexcept;
 };

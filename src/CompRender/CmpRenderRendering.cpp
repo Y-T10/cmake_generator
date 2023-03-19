@@ -37,14 +37,10 @@ const path SearchTplFile(const path& dir, const std::string& templateName) noexc
     return "";
 }
 
-const path FindTemplateFile(const std::string& templateName, const path& additionalDir) noexcept {
-    const std::vector<path> searchList = {
-        additionalDir,
-        current_path() / ".tpl",
-        HomeDir() / ".tcm" / "tpl",
-        "${INSTALL_PREFIX}/share/tcm/template"
-    };
-
+const path SearchTemplateFile(const std::string& templateName, const std::vector<path>& searchList) noexcept {
+    if(searchList.empty()){
+        return "";
+    }
     for(const auto& dir: searchList) {
         const auto file = SearchTplFile(dir, templateName);
         if(!file.empty()){
@@ -52,6 +48,18 @@ const path FindTemplateFile(const std::string& templateName, const path& additio
         }
     }
     return "";
+};
+
+const path FindTemplateFile(const std::string& templateName, const std::vector<path>& additionalDir) noexcept {
+    if(const auto file = SearchTemplateFile(templateName, additionalDir); !file.empty()){
+        return file;
+    }
+
+    return SearchTemplateFile(templateName, {
+        current_path() / ".tpl",
+        HomeDir() / ".tcm" / "tpl",
+        "${INSTALL_PREFIX}/share/tcm/template"
+    });
 };
     const Environment CreateCustomEnv() noexcept {
         Environment env;
@@ -66,10 +74,10 @@ std::ostream& RenderText(
 std::ostream& out,
 const std::string& templateName,
 const json& props,
-const path& additionalSearchDir) noexcept {
+const std::vector<path>& additionalSearchDirs) noexcept {
     auto env = CreateCustomEnv();
 
-    const auto templateFile = FindTemplateFile(templateName, additionalSearchDir);
+    const auto templateFile = FindTemplateFile(templateName, additionalSearchDirs);
     if(templateFile.empty()){
         return out;
     }
