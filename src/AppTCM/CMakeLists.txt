@@ -16,5 +16,5 @@ CmpVer
 pantor::inja
 fmt::fmt
 cxxopts::cxxopts
-AppCodeGen
+CmpCG
 )

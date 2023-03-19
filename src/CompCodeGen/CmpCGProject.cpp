@@ -1,7 +1,8 @@
-#include "AppCGenProject.hpp"
+#include "CmpCGProject.hpp"
 
 #include <string>
 #include "CmpRenderRendering.hpp"
+#include "CmpCGUtility.hpp"
 
 using namespace cxxopts;
 using namespace inja;
@@ -26,7 +27,7 @@ const json CreateProjectParam(const ParseResult& result) noexcept {
 };
 }
 
-namespace AppCGen {
+namespace CmpCG {
 void OptionProj(Options& opt) noexcept {
     opt.add_options("project")
         ("root", "specify root project with CMake version", value<string>()->default_value(""))
@@ -46,7 +47,8 @@ const std::optional<inja::json>ArgParseProj(const ParseResult& result) noexcept{
     });
 }
 
-void LoadTplProj(const inja::json& prop, std::ostream& out) noexcept{
-    CompRender::RenderText(out, "project", prop);
+void LoadTplProj(const inja::json& prop, const ParseResult& result, std::ostream& out) noexcept{
+    const auto addiPaths = CmpCGUtil::ConvertToPaht(result["I"].as<vector<string>>());
+    CompRender::RenderText(out, "project", prop, addiPaths);
 }
 };

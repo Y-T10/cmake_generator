@@ -1,10 +1,10 @@
-#include "AppCGListFiles.hpp"
+#include "CmpCGListFiles.hpp"
 
 using namespace std;
 using namespace std::filesystem;
 using namespace inja;
 
-namespace AppCGListFiles {
+namespace CmpCG {
 const optional<json::array_t>  ListFilesInDir(const path& dir, const regex& reg) noexcept {
     if(!is_directory(dir)){
         return nullopt;

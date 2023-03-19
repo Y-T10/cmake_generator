@@ -8,14 +8,29 @@ CMakeTGen は、CMake で利用するファイルを雛形から生成するツ�
 現在このプロジェクトはツールの設計段階にあります．
 
 ## 使用例
-プロジェクト`newProject`のCMakeファイルを生成する．
+プロジェクト用CMakeファイルを生成する．
 ```bash
-tcm -t proj -n "newProject" -r "3.20.0" -v "0.0.0" -l "CXX" -bt "Release"
+tcm --proj /path/to/project
 ```
 
-Threadライブライに依存するライブラリ`newLibrary`のCMakeファイルを生成する．
+バイナリ用CMakeファイルを生成する．
 ```bash
-tcm -t lib -n "newLibrary" -l "Thread"
+tcm --bin /path/to/bin-src
+```
+
+ライブラリ用CMakeファイルを生成する．
+```bash
+tcm --lib /path/to/lib-src
+```
+
+## テンプレートファイルの置き場所
+tcmは以下の上から順にテンプレートファイルを探します．
+
+```bash
+${INSTALL_PREFIX}/share/tcm/template
+${HOME}/.tcm/.tpl
+$(pwd)/.tpl
+$(pwd)
 ```
 
 ## ツールでできるようにしたいこと

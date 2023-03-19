@@ -6,14 +6,15 @@
 #include "cxxopts.hpp"
 #include "AppTCMOptions.hpp"
 #include "CmpVerVersion.hpp"
-#include "AppCGenProject.hpp"
-#include "AppCGenLibrary.hpp"
+#include "CmpCGProject.hpp"
+#include "CmpCGLibrary.hpp"
 #include <filesystem>
 #include <functional>
 #include <optional>
 #include <cassert>
 #include <numeric>
 #include <string>
+#include <vector>
 
 using namespace std;
 using namespace inja;
@@ -21,24 +22,6 @@ using namespace cxxopts;
 using namespace std::filesystem;
 using namespace std::string_literals;
 using namespace fmt;
-
-// projectのパラメータ
-const json CreateProjectParam(const string& name, const CmpVer::Version& version, const string& lang, const string& buildType) noexcept {
-    const auto policies = json::array({
-        json::object({{"number", "0076"}, {"value", "NEW"}, {"isGlobal", true}}),
-        json::object({{"number", "0128"}, {"value", "NEW"}, {"isGlobal", true}}),
-        json::object({{"number", "0074"}, {"value", "NEW"}, {"isGlobal", true}}),
-        json::object({{"number", "0077"}, {"value", "NEW"}, {"isGlobal", true}})
-    });
-    const auto projectProps = json::object({
-        {"name", name},
-        {"version", CmpVer::toString(version)},
-        {"lang", lang},
-        {"policies", policies},
-        {"buildType", buildType}
-    });
-    return projectProps;
-};
 
 /**
  * @brief ヘルプを出力する
@@ -71,15 +54,16 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
     opt.add_options()
         ("h,help", "print this help")
         ("t,type", "type of code generated", value<string>()->default_value(""))
-        ("n,name", "project/library/binary name", value<string>()->default_value(""));
-    AppCGen::OptionProj(opt);
-    AppCGen::OptionLib(opt);
+        ("n,name", "project/library/binary name", value<string>()->default_value(""))
+        ("I,templatePath", "追加のテンプレートファイル検索パス", value<vector<string>>()->default_value({}));
+    CmpCG::OptionProj(opt);
+    CmpCG::OptionLib(opt);
     return opt;
 }
 
 void DoGenerate(
 const function<const optional<json>(const ParseResult&)>& opt2prop,
-const function<void(const json&, ostream&)>& codeGenerator,
+const function<void(const json&, const ParseResult&, ostream&)>& codeGenerator,
 const ParseResult& resutl, ostream& out) noexcept{
     assert(opt2prop);
     assert(codeGenerator);
@@ -87,15 +71,15 @@ const ParseResult& resutl, ostream& out) noexcept{
     if(!prop){
         return;
     }
-    codeGenerator(*prop, out);
+    codeGenerator(*prop, resutl, out);
 }
 
 const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     const auto codeType = result["type"].as<string>();
     if(codeType == "project" || codeType == "proj") {
-        DoGenerate(AppCGen::ArgParseProj, AppCGen::LoadTplProj, result, out);
+        DoGenerate(CmpCG::ArgParseProj, CmpCG::LoadTplProj, result, out);
     }else if(codeType == "library" || codeType == "lib") {
-        DoGenerate(AppCGen::ArgParseLib, AppCGen::LoadTplLib, result, out);
+        DoGenerate(CmpCG::ArgParseLib, CmpCG::LoadTplLib, result, out);
     }else if(codeType == "binary" || codeType == "bin") {
         // DoGenerate(ArgParseBin, LoadTplBin, resutl);
     }

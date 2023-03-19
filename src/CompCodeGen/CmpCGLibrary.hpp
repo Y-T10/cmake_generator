@@ -5,7 +5,7 @@
 #include "inja/inja.hpp"
 #include <ostream>
 
-namespace AppCGen {
+namespace CmpCG {
     /// @brief プロジェクト関係のオプションを設定する
     /// @param opt オプションオブジェクト
     void OptionLib(cxxopts::Options& opt) noexcept;
@@ -20,5 +20,5 @@ namespace AppCGen {
     /// @brief プロパティとテンプレートを元にコードを生成する
     /// @param prop 生成に用いるプロパティ
     /// @param out 出力先ストリーム
-    void LoadTplLib(const inja::json& prop, std::ostream& out) noexcept;
+    void LoadTplLib(const inja::json& prop, const cxxopts::ParseResult& result, std::ostream& out) noexcept;
 };
