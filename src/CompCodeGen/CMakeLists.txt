@@ -1,19 +1,19 @@
-add_library(AppCodeGen)
+add_library(CmpCG)
 
 # Target sources
-target_sources(AppCodeGen PRIVATE
+target_sources(CmpCG PRIVATE
 CmpCGProject.cpp
 CmpCGLibrary.cpp
 CmpCGListFiles.cpp
 )
 
-target_include_directories(AppCodeGen PUBLIC
+target_include_directories(CmpCG PUBLIC
 ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Target libraries
 # パッケージライブラリなら
-target_link_libraries(AppCodeGen PRIVATE
+target_link_libraries(CmpCG PRIVATE
 cxxopts::cxxopts
 pantor::inja
 CmpRender
