@@ -14,6 +14,7 @@
 #include <cassert>
 #include <numeric>
 #include <string>
+#include <vector>
 
 using namespace std;
 using namespace inja;
@@ -53,7 +54,8 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
     opt.add_options()
         ("h,help", "print this help")
         ("t,type", "type of code generated", value<string>()->default_value(""))
-        ("n,name", "project/library/binary name", value<string>()->default_value(""));
+        ("n,name", "project/library/binary name", value<string>()->default_value(""))
+        ("I,templatePath", "追加のテンプレートファイル検索パス", value<vector<string>>()->default_value({}));
     CmpCG::OptionProj(opt);
     CmpCG::OptionLib(opt);
     return opt;
