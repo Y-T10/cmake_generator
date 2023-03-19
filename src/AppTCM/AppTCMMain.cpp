@@ -63,7 +63,7 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
 
 void DoGenerate(
 const function<const optional<json>(const ParseResult&)>& opt2prop,
-const function<void(const json&, ostream&)>& codeGenerator,
+const function<void(const json&, const ParseResult&, ostream&)>& codeGenerator,
 const ParseResult& resutl, ostream& out) noexcept{
     assert(opt2prop);
     assert(codeGenerator);
@@ -71,7 +71,7 @@ const ParseResult& resutl, ostream& out) noexcept{
     if(!prop){
         return;
     }
-    codeGenerator(*prop, out);
+    codeGenerator(*prop, resutl, out);
 }
 
 const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
