@@ -10,14 +10,6 @@ using namespace inja;
 using namespace std;
 
 namespace {
-const json toJSON(const std::vector<string>& strings){
-    auto dst = json::array({});
-    std::transform(strings.begin(), strings.end(), std::back_inserter(dst), [](const string& str)->const json{
-        return json(str);
-    });
-    return dst;
-}
-
 const json CreateTargetParam(const ParseResult& result) noexcept {
     const auto sourceFiles = CmpCG::ListFilesInDir(
         std::filesystem::current_path(),
