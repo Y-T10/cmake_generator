@@ -22,24 +22,6 @@ using namespace std::filesystem;
 using namespace std::string_literals;
 using namespace fmt;
 
-// projectのパラメータ
-const json CreateProjectParam(const string& name, const CmpVer::Version& version, const string& lang, const string& buildType) noexcept {
-    const auto policies = json::array({
-        json::object({{"number", "0076"}, {"value", "NEW"}, {"isGlobal", true}}),
-        json::object({{"number", "0128"}, {"value", "NEW"}, {"isGlobal", true}}),
-        json::object({{"number", "0074"}, {"value", "NEW"}, {"isGlobal", true}}),
-        json::object({{"number", "0077"}, {"value", "NEW"}, {"isGlobal", true}})
-    });
-    const auto projectProps = json::object({
-        {"name", name},
-        {"version", CmpVer::toString(version)},
-        {"lang", lang},
-        {"policies", policies},
-        {"buildType", buildType}
-    });
-    return projectProps;
-};
-
 /**
  * @brief ヘルプを出力する
  * @param opt オプションオブジェクト
