@@ -4,7 +4,11 @@
 #include <string>
 #include "CmpRenderRendering.hpp"
 #include "CmpCGListFiles.hpp"
+#include "CmpCGUtility.hpp"
+#include <filesystem>
+#include <vector>
 
+using namespace std::filesystem;
 using namespace cxxopts;
 using namespace inja;
 using namespace std;
@@ -24,7 +28,7 @@ const json CreateTargetParam(const ParseResult& result) noexcept {
         {"properties", json::array({})},
         {"sources", *sourceFiles},
         {"includeDirs", json::array({"${CMAKE_CURRENT_SOURCE_DIR}"})},
-        {"libraries", toJSON(result["lib"].as<std::vector<string>>())}
+        {"libraries", CmpCGUtil::toJSON(result["lib"].as<std::vector<string>>())}
     });
 };
 }
@@ -46,7 +50,8 @@ const std::optional<inja::json>ArgParseLib(const ParseResult& result) noexcept{
     });
 }
 
-void LoadTplLib(const inja::json& prop, std::ostream& out) noexcept{
-    CompRender::RenderText(out, "library", prop);
+void LoadTplLib(const inja::json& prop, const ParseResult& result, std::ostream& out) noexcept{
+    const auto addiPaths = CmpCGUtil::ConvertToPaht(result["I"].as<vector<string>>());
+    CompRender::RenderText(out, "library", prop, addiPaths);
 }
 };
