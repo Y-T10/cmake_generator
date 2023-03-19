@@ -19,11 +19,14 @@ const path HomeDir() noexcept {
 }
 
 const path SearchTplFile(const path& dir, const std::string& templateName) noexcept {
+    if(!exists(dir)){
+        return "";
+    }
     for (const directory_entry& file : directory_iterator(dir)) {
         if(!file.is_regular_file()){
             continue;
         }
-        if(file.path().extension() != "tpl"){
+        if(file.path().extension().string() != ".tpl"){
             continue;
         }
         if(file.path().stem() != templateName){
