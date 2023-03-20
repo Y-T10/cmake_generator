@@ -10,17 +10,17 @@ CMakeTGen は、CMake で利用するファイルを雛形から生成するツ�
 ## 使用例
 プロジェクト用CMakeファイルを生成する．
 ```bash
-tcm --proj /path/to/project
+tcm -t proj /path/to/project
 ```
 
 バイナリ用CMakeファイルを生成する．
 ```bash
-tcm --bin /path/to/bin-src
+tcm -t bin /path/to/bin-src
 ```
 
 ライブラリ用CMakeファイルを生成する．
 ```bash
-tcm --lib /path/to/lib-src
+tcm -t lib /path/to/lib-src
 ```
 
 ## テンプレートファイルの置き場所
