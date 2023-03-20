@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <string>
 #include "CmpRenderRendering.hpp"
-#include "CmpCGListFiles.hpp"
 #include "CmpCGUtility.hpp"
 #include <filesystem>
 #include <vector>
@@ -15,7 +14,7 @@ using namespace std;
 
 namespace {
 const json CreateTargetParam(const ParseResult& result) noexcept {
-    const auto sourceFiles = CmpCG::ListFilesInDir(
+    const auto sourceFiles = CmpCGUtil::ListFilesInDir(
         std::filesystem::current_path(),
         regex(R"(^[\w\-\.]+\.(c\+\+|cxx|cc|cpp)$)")
     );
