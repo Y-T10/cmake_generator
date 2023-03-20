@@ -3,8 +3,10 @@
 #include <iostream>
 #include <cstdint>
 #include "fmt/format.h"
+#include "fmt/std.h"
 #include "cxxopts.hpp"
 #include "AppTCMOptions.hpp"
+#include "CmpCGAddSubDirs.hpp"
 #include "CmpVerVersion.hpp"
 #include "CmpCGProject.hpp"
 #include "CmpCGLibrary.hpp"
@@ -53,15 +55,17 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
     opt.allow_unrecognised_options();
     opt.add_options()
         ("h,help", "print this help")
-        ("t,type", "type of code generated", value<string>()->default_value(""))
-        ("n,name", "project/library/binary name", value<string>()->default_value(""))
-        ("I,templatePath", "追加のテンプレートファイル検索パス", value<vector<string>>()->default_value({}));
+        ("t,type", "type of code generated", value<string>()->default_value("none"))
+        ("n,name", "project/library/binary name")
+        ("I,templatePath", "search path for template files", value<vector<string>>()->default_value({}))
+        ("output-dir", "directory where CMake files are output", value<string>());
+    opt.parse_positional({"output-dir"});
     CmpCG::OptionProj(opt);
     CmpCG::OptionLib(opt);
     return opt;
 }
 
-void DoGenerate(
+const bool DoGenerate(
 const function<const optional<json>(const ParseResult&)>& opt2prop,
 const function<void(const json&, const ParseResult&, ostream&)>& codeGenerator,
 const ParseResult& resutl, ostream& out) noexcept{
@@ -69,23 +73,34 @@ const ParseResult& resutl, ostream& out) noexcept{
     assert(codeGenerator);
     const auto prop = opt2prop(resutl);
     if(!prop){
-        return;
+        print(stderr, FMT_STRING("{:s}: creating template properties failed.\n"), "tcm");
+        return false;
     }
     codeGenerator(*prop, resutl, out);
+    // GenerateAddSubdir();
+    return true;
 }
 
 const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     const auto codeType = result["type"].as<string>();
     if(codeType == "project" || codeType == "proj") {
-        DoGenerate(CmpCG::ArgParseProj, CmpCG::LoadTplProj, result, out);
+        return DoGenerate(CmpCG::ArgParseProj, CmpCG::LoadTplProj, result, out);
     }else if(codeType == "library" || codeType == "lib") {
-        DoGenerate(CmpCG::ArgParseLib, CmpCG::LoadTplLib, result, out);
+        return DoGenerate(CmpCG::ArgParseLib, CmpCG::LoadTplLib, result, out);
     }else if(codeType == "binary" || codeType == "bin") {
         // DoGenerate(ArgParseBin, LoadTplBin, resutl);
+    }else if(codeType == "none") {
+        const auto noneProp = [](const ParseResult& result) -> optional<json>{
+            return json();
+        };
+        const auto noneCG = [](const json& prop, const ParseResult& result, ostream& out){
+            return;
+        };
+        return DoGenerate(noneProp, noneCG, result, out);
     }
 
-    // GenerateAddSubdir();
-    return true;
+    print(stderr, FMT_STRING("{:s}: unknwon code type \"{:s}\".\n"), "tcm", codeType);
+    return false;
 }
 
 int main(int argc, char* argv[]) {
@@ -100,14 +115,30 @@ int main(int argc, char* argv[]) {
     }
 
     if(!!result.count("help") || result.arguments().empty()){
-        PrintHelp(opt, "[options]", "");
+        PrintHelp(opt, "[options]", "</path/to/output/direcotry>");
         return 0;
     }
 
-    if(!GenerateCode(result, cout)){
-        print(stderr, FMT_STRING("{:s}: code generation failed.\n"), opt.program());
+    if(result.count("output-dir") == 0){
+        print(stderr, FMT_STRING("{:s}: no output direcotry is specified.\n"), opt.program());
+        return 2;
+    }
+
+    const auto outputDir = path(result["output-dir"].as<string>());
+    if(!exists(outputDir)){
+        print(stderr, FMT_STRING("{:s}: {} does not exist.\n"), "tcm", outputDir);
+        return 2;
+    }
+    if(!is_directory(outputDir)){
+        print(stderr, FMT_STRING("{:s}: {} is not directory.\n"), "tcm", outputDir);
+        return 2;
+    }
+    std::ofstream outputFile(outputDir / "CMakeLists.txt");
+
+    if(!GenerateCode(result, outputFile)){
         return 1;
     }
+    CmpCG::GenerateAddSubdir(outputDir, result, outputFile);
 
     return 0;
 };

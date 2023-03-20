@@ -1,6 +1,9 @@
 #include "CmpCGUtility.hpp"
 
+#include <cassert>
+
 using namespace std::filesystem;
+using namespace cxxopts;
 using namespace inja;
 using namespace std;
 
@@ -25,5 +28,39 @@ namespace CmpCGUtil {
             return json(str);
         });
         return dst;
+    }
+    
+    const optional<json::array_t>  ListFilesInDir(const path& dir, const regex& reg) noexcept {
+        if(!is_directory(dir)){
+            return nullopt;
+        }
+
+        json::array_t targetFiles = {};
+        for (const directory_entry& file : directory_iterator(dir)) {
+            if(!file.is_regular_file()){
+                continue;
+            }
+            if(!regex_match(file.path().filename().string(), reg)){
+                continue;
+            }
+            targetFiles.push_back(file.path().filename().string());
+        }
+        return targetFiles;
+    }
+
+    const string GetName(const ParseResult& result) noexcept {
+        if(result["name"].count()){
+            return result["name"].as<string>();
+        }
+
+        assert(!!result["output-dir"].count());
+        const path outputPath = result["output-dir"].as<string>();
+        assert(exists(outputPath));
+        assert(is_directory(outputPath));
+
+        if(!(prev(outputPath.end())->stem().empty())){
+            return prev(outputPath.end())->stem().string();
+        }
+        return prev(outputPath.end(), 2)->stem().string();
     }
 };

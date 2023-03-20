@@ -1,0 +1,7 @@
+#include "CmpConfInstall.hpp"
+
+namespace CmpConf {
+    const std::string_view DefaultCMakeVersion() noexcept { 
+        return "@CMAKE_VERSION@";
+    }
+}

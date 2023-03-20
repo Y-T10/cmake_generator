@@ -4,8 +4,8 @@ add_library(CmpCG)
 target_sources(CmpCG PRIVATE
 CmpCGProject.cpp
 CmpCGLibrary.cpp
-CmpCGListFiles.cpp
 CmpCGUtility.cpp
+CmpCGAddSubDirs.cpp
 )
 
 target_include_directories(CmpCG PUBLIC
@@ -18,4 +18,5 @@ target_link_libraries(CmpCG PRIVATE
 cxxopts::cxxopts
 pantor::inja
 CmpRender
+CmpConf
 )

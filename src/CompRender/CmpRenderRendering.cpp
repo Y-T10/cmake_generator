@@ -5,6 +5,7 @@
 #include <ostream>
 #include <cstdlib>
 #include "fmt/format.h"
+#include "CmpConfInstall.hpp"
 
 using namespace std::filesystem;
 using namespace inja;
@@ -55,10 +56,11 @@ const path FindTemplateFile(const std::string& templateName, const std::vector<p
         return file;
     }
 
+    const auto installShare = path(CmpConf::InstallPrefix()) / "share";
     return SearchTemplateFile(templateName, {
         current_path() / ".tpl",
         HomeDir() / ".tcm" / "tpl",
-        "${INSTALL_PREFIX}/share/tcm/template"
+        installShare / "tcm" / "template"
     });
 };
     const Environment CreateCustomEnv() noexcept {

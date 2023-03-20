@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <string>
 #include "CmpRenderRendering.hpp"
-#include "CmpCGListFiles.hpp"
 #include "CmpCGUtility.hpp"
 #include <filesystem>
 #include <vector>
@@ -15,8 +14,8 @@ using namespace std;
 
 namespace {
 const json CreateTargetParam(const ParseResult& result) noexcept {
-    const auto sourceFiles = CmpCG::ListFilesInDir(
-        std::filesystem::current_path(),
+    const auto sourceFiles = CmpCGUtil::ListFilesInDir(
+        result["output-dir"].as<string>(),
         regex(R"(^[\w\-\.]+\.(c\+\+|cxx|cc|cpp)$)")
     );
     if(!sourceFiles.has_value()){
@@ -24,7 +23,7 @@ const json CreateTargetParam(const ParseResult& result) noexcept {
     }
 
     return json::object({
-        {"name", result["name"].as<string>()},
+        {"name", CmpCGUtil::GetName(result)},
         {"properties", json::array({})},
         {"sources", *sourceFiles},
         {"includeDirs", json::array({"${CMAKE_CURRENT_SOURCE_DIR}"})},
@@ -53,5 +52,6 @@ const std::optional<inja::json>ArgParseLib(const ParseResult& result) noexcept{
 void LoadTplLib(const inja::json& prop, const ParseResult& result, std::ostream& out) noexcept{
     const auto addiPaths = CmpCGUtil::ConvertToPaht(result["I"].as<vector<string>>());
     CompRender::RenderText(out, "library", prop, addiPaths);
+    out << std::endl;
 }
 };

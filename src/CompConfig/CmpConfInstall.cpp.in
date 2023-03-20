@@ -1,0 +1,7 @@
+#include "CmpConfInstall.hpp"
+
+namespace CmpConf {
+    const std::string_view InstallPrefix() noexcept{
+        return "@CMAKE_INSTALL_PREFIX@";
+    }
+}
