@@ -64,7 +64,7 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
     return opt;
 }
 
-void DoGenerate(
+const bool DoGenerate(
 const function<const optional<json>(const ParseResult&)>& opt2prop,
 const function<void(const json&, const ParseResult&, ostream&)>& codeGenerator,
 const ParseResult& resutl, ostream& out) noexcept{
@@ -72,18 +72,19 @@ const ParseResult& resutl, ostream& out) noexcept{
     assert(codeGenerator);
     const auto prop = opt2prop(resutl);
     if(!prop){
-        return;
+        return false;
     }
     codeGenerator(*prop, resutl, out);
     out << std::endl;
+    return true;
 }
 
 const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     const auto codeType = result["type"].as<string>();
     if(codeType == "project" || codeType == "proj") {
-        DoGenerate(CmpCG::ArgParseProj, CmpCG::LoadTplProj, result, out);
+        return DoGenerate(CmpCG::ArgParseProj, CmpCG::LoadTplProj, result, out);
     }else if(codeType == "library" || codeType == "lib") {
-        DoGenerate(CmpCG::ArgParseLib, CmpCG::LoadTplLib, result, out);
+        return DoGenerate(CmpCG::ArgParseLib, CmpCG::LoadTplLib, result, out);
     }else if(codeType == "binary" || codeType == "bin") {
         // DoGenerate(ArgParseBin, LoadTplBin, resutl);
     }
