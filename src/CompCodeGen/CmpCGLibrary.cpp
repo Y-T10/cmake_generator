@@ -23,7 +23,7 @@ const json CreateTargetParam(const ParseResult& result) noexcept {
     }
 
     return json::object({
-        {"name", result["name"].as<string>()},
+        {"name", CmpCGUtil::GetName(result)},
         {"properties", json::array({})},
         {"sources", *sourceFiles},
         {"includeDirs", json::array({"${CMAKE_CURRENT_SOURCE_DIR}"})},

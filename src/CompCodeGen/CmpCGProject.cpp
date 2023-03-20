@@ -18,7 +18,7 @@ const json CreateProjectParam(const ParseResult& result) noexcept {
         json::object({{"number", "0077"}, {"value", "NEW"}, {"isGlobal", true}})
     });
     const auto projectProps = json::object({
-        {"name", result["name"].as<string>()},
+        {"name", CmpCGUtil::GetName(result)},
         {"version", result["ver"].as<string>()},
         {"lang", result["lang"].as<string>()},
         {"buildType", result["bt"].as<string>()},
