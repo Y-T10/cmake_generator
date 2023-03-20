@@ -5,6 +5,7 @@ target_sources(CmpCG PRIVATE
 CmpCGProject.cpp
 CmpCGLibrary.cpp
 CmpCGUtility.cpp
+CmpCGAddSubDirs.cpp
 )
 
 target_include_directories(CmpCG PUBLIC
