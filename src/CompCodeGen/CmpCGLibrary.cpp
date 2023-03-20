@@ -15,7 +15,7 @@ using namespace std;
 namespace {
 const json CreateTargetParam(const ParseResult& result) noexcept {
     const auto sourceFiles = CmpCGUtil::ListFilesInDir(
-        std::filesystem::current_path(),
+        result["output-dir"].as<string>(),
         regex(R"(^[\w\-\.]+\.(c\+\+|cxx|cc|cpp)$)")
     );
     if(!sourceFiles.has_value()){
