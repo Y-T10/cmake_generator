@@ -54,7 +54,7 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
     opt.allow_unrecognised_options();
     opt.add_options()
         ("h,help", "print this help")
-        ("t,type", "type of code generated", value<string>()->default_value(""))
+        ("t,type", "type of code generated", value<string>()->default_value("none"))
         ("n,name", "project/library/binary name")
         ("I,templatePath", "search path for template files", value<vector<string>>()->default_value({}))
         ("output-dir", "directory where CMake files are output", value<string>());
