@@ -17,4 +17,5 @@ target_link_libraries(CmpCG PRIVATE
 cxxopts::cxxopts
 pantor::inja
 CmpRender
+CmpConf
 )
