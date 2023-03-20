@@ -77,6 +77,7 @@ const ParseResult& resutl, ostream& out) noexcept{
     }
     codeGenerator(*prop, resutl, out);
     out << std::endl;
+    // GenerateAddSubdir();
     return true;
 }
 
@@ -98,8 +99,8 @@ const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
         return DoGenerate(noneProp, noneCG, result, out);
     }
 
-    // GenerateAddSubdir();
-    return true;
+    print(stderr, FMT_STRING("{:s}: unknwon code type \"{:s}\".\n"), "tcm", codeType);
+    return false;
 }
 
 int main(int argc, char* argv[]) {
