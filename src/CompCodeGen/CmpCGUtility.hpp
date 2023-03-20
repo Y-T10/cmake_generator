@@ -1,6 +1,7 @@
 #pragma once
 
 #include "inja/inja.hpp"
+#include "cxxopts.hpp"
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -29,4 +30,11 @@ namespace CmpCGUtil {
      * @retval !=nullopt dirの調査成功
      */
     const std::optional<inja::json::array_t> ListFilesInDir(const std::filesystem::path& dir, const std::regex& reg) noexcept;
+
+    /**
+     * @brief プログラムの引数から名前を得る．
+     * @param result プログラムの引数
+     * @return 名前の文字列
+    */
+    const std::string GetName(const cxxopts::ParseResult& result) noexcept;
 };

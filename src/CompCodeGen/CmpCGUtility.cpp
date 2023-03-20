@@ -1,6 +1,9 @@
 #include "CmpCGUtility.hpp"
 
+#include <cassert>
+
 using namespace std::filesystem;
+using namespace cxxopts;
 using namespace inja;
 using namespace std;
 
@@ -43,5 +46,21 @@ namespace CmpCGUtil {
             targetFiles.push_back(file.path().filename().string());
         }
         return targetFiles;
+    }
+
+    const string GetName(const ParseResult& result) noexcept {
+        if(result["name"].count()){
+            return result["name"].as<string>();
+        }
+
+        assert(!!result["output-dir"].count());
+        const path outputPath = result["output-dir"].as<string>();
+        assert(exists(outputPath));
+        assert(is_directory(outputPath));
+
+        if(!(prev(outputPath.end())->stem().empty())){
+            return prev(outputPath.end())->stem().string();
+        }
+        return prev(outputPath.end(), 2)->stem().string();
     }
 };
