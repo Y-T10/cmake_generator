@@ -55,7 +55,9 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
         ("h,help", "print this help")
         ("t,type", "type of code generated", value<string>()->default_value(""))
         ("n,name", "project/library/binary name", value<string>()->default_value(""))
-        ("I,templatePath", "Add search paths for template files", value<vector<string>>()->default_value({}));
+        ("I,templatePath", "search path for template files", value<vector<string>>()->default_value({}))
+        ("output-dir", "directory where CMake files are output", value<string>()->default_value(""));
+    opt.parse_positional({"output-dir"});
     CmpCG::OptionProj(opt);
     CmpCG::OptionLib(opt);
     return opt;
@@ -100,7 +102,7 @@ int main(int argc, char* argv[]) {
     }
 
     if(!!result.count("help") || result.arguments().empty()){
-        PrintHelp(opt, "[options]", "");
+        PrintHelp(opt, "[options]", "</path/to/output/direcotry>");
         return 0;
     }
 
