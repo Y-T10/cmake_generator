@@ -4,7 +4,6 @@ add_library(CmpCG)
 target_sources(CmpCG PRIVATE
 CmpCGProject.cpp
 CmpCGLibrary.cpp
-CmpCGListFiles.cpp
 CmpCGUtility.cpp
 )
 
