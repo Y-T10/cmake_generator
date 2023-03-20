@@ -72,6 +72,7 @@ const ParseResult& resutl, ostream& out) noexcept{
     assert(codeGenerator);
     const auto prop = opt2prop(resutl);
     if(!prop){
+        print(stderr, FMT_STRING("{:s}: creating template properties failed.\n"), "tcm");
         return false;
     }
     codeGenerator(*prop, resutl, out);
@@ -126,7 +127,6 @@ int main(int argc, char* argv[]) {
     std::ofstream outputFile(outputDir / "CMakeLists.txt");
 
     if(!GenerateCode(result, outputFile)){
-        print(stderr, FMT_STRING("{:s}: code generation failed.\n"), opt.program());
         return 1;
     }
 
