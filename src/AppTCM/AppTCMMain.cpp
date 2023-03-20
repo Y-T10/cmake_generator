@@ -106,6 +106,10 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
+    if(result.count("output-dir") == 0){
+        print(stderr, FMT_STRING("{:s}: no output direcotry is specified.\n"), opt.program());
+    }
+
     if(!GenerateCode(result, cout)){
         print(stderr, FMT_STRING("{:s}: code generation failed.\n"), opt.program());
         return 1;
