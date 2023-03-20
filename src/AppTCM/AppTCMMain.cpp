@@ -88,6 +88,14 @@ const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
         return DoGenerate(CmpCG::ArgParseLib, CmpCG::LoadTplLib, result, out);
     }else if(codeType == "binary" || codeType == "bin") {
         // DoGenerate(ArgParseBin, LoadTplBin, resutl);
+    }else if(codeType == "none") {
+        const auto noneProp = [](const ParseResult& result) -> optional<json>{
+            return json();
+        };
+        const auto noneCG = [](const json& prop, const ParseResult& result, ostream& out){
+            return;
+        };
+        return DoGenerate(noneProp, noneCG, result, out);
     }
 
     // GenerateAddSubdir();
