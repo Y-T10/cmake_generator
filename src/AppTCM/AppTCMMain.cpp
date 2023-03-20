@@ -55,7 +55,7 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
         ("h,help", "print this help")
         ("t,type", "type of code generated", value<string>()->default_value(""))
         ("n,name", "project/library/binary name", value<string>()->default_value(""))
-        ("I,templatePath", "追加のテンプレートファイル検索パス", value<vector<string>>()->default_value({}));
+        ("I,templatePath", "Add search paths for template files", value<vector<string>>()->default_value({}));
     CmpCG::OptionProj(opt);
     CmpCG::OptionLib(opt);
     return opt;
