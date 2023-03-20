@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstdint>
 #include "fmt/format.h"
+#include "fmt/std.h"
 #include "cxxopts.hpp"
 #include "AppTCMOptions.hpp"
 #include "CmpVerVersion.hpp"
@@ -74,6 +75,7 @@ const ParseResult& resutl, ostream& out) noexcept{
         return;
     }
     codeGenerator(*prop, resutl, out);
+    out << std::endl;
 }
 
 const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
@@ -111,7 +113,18 @@ int main(int argc, char* argv[]) {
         return 2;
     }
 
-    if(!GenerateCode(result, cout)){
+    const auto outputDir = path(result["output-dir"].as<string>());
+    if(!exists(outputDir)){
+        print(stderr, FMT_STRING("{:s}: {} does not exist.\n"), "tcm", outputDir);
+        return 2;
+    }
+    if(!is_directory(outputDir)){
+        print(stderr, FMT_STRING("{:s}: {} is not directory.\n"), "tcm", outputDir);
+        return 2;
+    }
+    std::ofstream outputFile(outputDir / "CMakeLists.txt");
+
+    if(!GenerateCode(result, outputFile)){
         print(stderr, FMT_STRING("{:s}: code generation failed.\n"), opt.program());
         return 1;
     }
