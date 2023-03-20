@@ -48,5 +48,6 @@ const std::optional<inja::json>ArgParseProj(const ParseResult& result) noexcept{
 void LoadTplProj(const inja::json& prop, const ParseResult& result, std::ostream& out) noexcept{
     const auto addiPaths = CmpCGUtil::ConvertToPaht(result["I"].as<vector<string>>());
     CompRender::RenderText(out, "project", prop, addiPaths);
+    out << std::endl;
 }
 };

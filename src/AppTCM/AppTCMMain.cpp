@@ -76,7 +76,6 @@ const ParseResult& resutl, ostream& out) noexcept{
         return false;
     }
     codeGenerator(*prop, resutl, out);
-    out << std::endl;
     // GenerateAddSubdir();
     return true;
 }
