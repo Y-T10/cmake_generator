@@ -14,4 +14,5 @@ ${CMAKE_CURRENT_SOURCE_DIR}
 target_link_libraries(CmpRender PRIVATE
     pantor::inja
     fmt::fmt
+    CmpConf
 )
