@@ -2,8 +2,10 @@
 
 #include "inja/inja.hpp"
 #include <filesystem>
+#include <optional>
 #include <string>
 #include <vector>
+#include <regex>
 
 namespace CmpCGUtil {
     /**
@@ -17,4 +19,14 @@ namespace CmpCGUtil {
      * @brief 文字列配列をjsonの配列オブジェクトに変換する
      */
     const inja::json toJSON(const std::vector<std::string>& strings);
+
+    /**
+     * ディレクトリから正規表現とマッチするファイル名を返す
+     * @param dir ディレクトリ
+     * @param reg 正規表現
+     * @return マッチしたファイル名の一覧．
+     * @retval ==nullopt dirの調査失敗
+     * @retval !=nullopt dirの調査成功
+     */
+    const std::optional<inja::json::array_t> ListFilesInDir(const std::filesystem::path& dir, const std::regex& reg) noexcept;
 };
