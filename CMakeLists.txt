@@ -24,3 +24,4 @@ include(GNUInstallDirs)
 
 add_subdirectory(src)
 add_subdirectory(library)
+add_subdirectory(template)
