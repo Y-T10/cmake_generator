@@ -7,6 +7,7 @@ set(BUILD_BENCHMARK OFF)
 set(COVERALLS OFF)
 add_subdirectory(inja)
 
+set(FMT_INSTALL OFF)
 add_subdirectory(fmt)
 
 add_subdirectory(cppopts)

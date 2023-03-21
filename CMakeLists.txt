@@ -19,5 +19,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# GNUのインストール先ディレクトリを使用
+include(GNUInstallDirs)
+
 add_subdirectory(src)
 add_subdirectory(library)
+add_subdirectory(template)

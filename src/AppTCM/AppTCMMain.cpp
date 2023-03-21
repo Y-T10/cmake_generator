@@ -17,6 +17,8 @@
 #include <numeric>
 #include <string>
 #include <vector>
+#include "CmpConfInstall.hpp"
+#include "CmpFileSysPath.hpp"
 
 using namespace std;
 using namespace inja;
@@ -69,38 +71,70 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
     return opt;
 }
 
+const vector<path> CreateDefaultPaths() noexcept{
+    const auto homeDir = CmpFile::HomeDir();
+    return vector<path>{
+        current_path() / ".tpl",
+        homeDir.empty()? "": homeDir / format(".{:s}", AppTCMConf::ProgramName()) / "template",
+        CmpConf::InstallDataPath() / "template"
+    };
+}
+
+const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
+    auto searchPaths = CmpFile::ConvertToPaht(result["templatePath"].as<vector<string>>());
+    for(const auto& path: CreateDefaultPaths()){
+        searchPaths.emplace_back(path);
+    }
+    return searchPaths;
+}
+
+const path SearchTplFile(const path& tplFilePath, const vector<path>& searchPath) noexcept {
+    if(tplFilePath.is_absolute()){
+        return exists(tplFilePath)? tplFilePath: "";
+    }
+
+    assert(tplFilePath.is_relative());
+    for(const auto& dir: searchPath){
+        if(exists(dir / tplFilePath)){
+            return dir / tplFilePath;
+        }
+    }
+    return "";
+};
+
 const bool DoGenerate(
 const function<const optional<json>(const ParseResult&)>& opt2prop,
-const function<void(const json&, const ParseResult&, ostream&)>& codeGenerator,
-const ParseResult& resutl, ostream& out) noexcept{
+const function<const path(const ParseResult&)>& tplFilePath,
+const ParseResult& result, ostream& out) noexcept{
     assert(opt2prop);
-    assert(codeGenerator);
-    const auto prop = opt2prop(resutl);
+    assert(tplFilePath);
+    const auto prop = opt2prop(result);
     if(!prop){
         PrintError("creating template properties failed.");
         return false;
     }
-    codeGenerator(*prop, resutl, out);
-    // GenerateAddSubdir();
+
+    const auto fileName = tplFilePath(result);
+    const auto filePath = SearchTplFile(fileName, CreateSearchPaths(result));
+    if(filePath.empty()){
+        PrintError(format("template file \"{:s}\" not found.", fileName));
+        return false;
+    }
+    CompRender::RenderText(out, filePath, *prop);
+    out << std::endl;
     return true;
 }
 
 const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     const auto codeType = result["type"].as<string>();
     if(codeType == "project" || codeType == "proj") {
-        return DoGenerate(CmpCG::ArgParseProj, CmpCG::LoadTplProj, result, out);
+        return DoGenerate(CmpCG::ArgParseProj, CmpCG::TplPathProj, result, out);
     }else if(codeType == "library" || codeType == "lib") {
-        return DoGenerate(CmpCG::ArgParseLib, CmpCG::LoadTplLib, result, out);
+        return DoGenerate(CmpCG::ArgParseLib, CmpCG::TplPathLib, result, out);
     }else if(codeType == "binary" || codeType == "bin") {
-        // DoGenerate(ArgParseBin, LoadTplBin, resutl);
+        // DoGenerate(ArgParseBin, TplPathBin, resutl);
     }else if(codeType == "none") {
-        const auto noneProp = [](const ParseResult& result) -> optional<json>{
-            return json();
-        };
-        const auto noneCG = [](const json& prop, const ParseResult& result, ostream& out){
-            return;
-        };
-        return DoGenerate(noneProp, noneCG, result, out);
+        return true;
     }
 
     print(stderr, FMT_STRING("{:s}: unknwon code type \"{:s}\".\n"), "tcm", codeType);
@@ -141,7 +175,10 @@ int main(int argc, char* argv[]) {
     if(!GenerateCode(result, outputFile)){
         return 1;
     }
-    CmpCG::GenerateAddSubdir(outputDir, result, outputFile);
+
+    if(!DoGenerate(CmpCG::ArgParseAddSubdir, CmpCG::TplPathAddSubdir, result, outputFile)){
+        return 1;
+    }
 
     return 0;
 };

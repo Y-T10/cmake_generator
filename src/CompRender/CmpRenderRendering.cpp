@@ -9,6 +9,7 @@
 
 using namespace std::filesystem;
 using namespace inja;
+using namespace fmt;
 
 namespace {
 const path HomeDir() noexcept {
@@ -72,19 +73,17 @@ const path FindTemplateFile(const std::string& templateName, const std::vector<p
 }
 
 namespace CompRender {
-std::ostream& RenderText(
-std::ostream& out,
-const std::string& templateName,
-const json& props,
-const std::vector<path>& additionalSearchDirs) noexcept {
+std::ostream& RenderText(std::ostream& out, const std::filesystem::path& tplFilePath, const inja::json& props) noexcept {
     auto env = CreateCustomEnv();
-
-    const auto templateFile = FindTemplateFile(templateName, additionalSearchDirs);
-    if(templateFile.empty()){
+    if(tplFilePath.empty()){
         return out;
     }
 
-    const auto tpl =  env.parse_template(templateFile);
+    const auto tpl =  env.parse_template(tplFilePath);
     return env.render_to(out, tpl, props);
 }
+
+    const std::filesystem::path AppendTemplateFileExt(const std::string& filename) noexcept{
+        return format(FMT_STRING("{:s}.tpl"), filename);
+    }
 };

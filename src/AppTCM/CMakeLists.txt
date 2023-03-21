@@ -28,4 +28,9 @@ pantor::inja
 fmt::fmt
 cxxopts::cxxopts
 CmpCG
+CmpFile
+CmpConf
 )
+
+# プログラムのインストール設定
+install(TARGETS tcm DESTINATION ${CMAKE_INSTALL_BINDIR})

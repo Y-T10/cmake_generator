@@ -17,8 +17,8 @@ namespace CmpCG {
     /// @retval !=nullopt プロパティ生成成功
     const std::optional<inja::json>ArgParseProj(const cxxopts::ParseResult& result) noexcept;
     
-    /// @brief プロパティとテンプレートを元にコードを生成する
-    /// @param prop 生成に用いるプロパティ
-    /// @param out 出力先ストリーム
-    void LoadTplProj(const inja::json& prop, const cxxopts::ParseResult& result, std::ostream& out) noexcept;
+    /// @brief パラメータからテンプレートファイルへのパスを返す
+    /// @param result パース結果
+    /// @return テンプレートファイルへのパウ
+    const std::filesystem::path TplPathProj(const cxxopts::ParseResult& result) noexcept;
 };

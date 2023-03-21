@@ -8,13 +8,15 @@
 #include <vector>
 
 namespace CompRender {
-    /// @brief propsを用いて生成したコードをストリームに書き出す
+    /// @brief コードを生成しストリームに書き出す
     /// @param out 出力先
+    /// @param tplFilePath テンプレートファイルへのパス
     /// @param props プロパティ
     /// @return out
-    std::ostream& RenderText(
-    std::ostream& out,
-    const std::string& templateName,
-    const inja::json& props,
-    const std::vector<std::filesystem::path>& additionalSearchDir = {}) noexcept;
+    std::ostream& RenderText(std::ostream& out, const std::filesystem::path& tplFilePath, const inja::json& props) noexcept;
+
+    /**
+     * @brief ファイル名にテンプレートファイルの拡張子を付けたファイル名を返す
+     */
+    const std::filesystem::path AppendTemplateFileExt(const std::string& filename) noexcept;
 };

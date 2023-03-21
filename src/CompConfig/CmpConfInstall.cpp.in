@@ -1,7 +1,13 @@
 #include "CmpConfInstall.hpp"
 
+using namespace std::filesystem;
+
 namespace CmpConf {
     const std::string_view InstallPrefix() noexcept{
         return "@CMAKE_INSTALL_PREFIX@";
+    }
+
+    const path InstallDataPath() noexcept{
+        return path(InstallPrefix()) / "@CMAKE_INSTALL_DATAROOTDIR@" / "@PROJECT_NAME@";
     }
 }
