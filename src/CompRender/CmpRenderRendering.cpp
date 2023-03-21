@@ -9,6 +9,7 @@
 
 using namespace std::filesystem;
 using namespace inja;
+using namespace fmt;
 
 namespace {
 const path HomeDir() noexcept {
@@ -87,4 +88,8 @@ const std::vector<path>& additionalSearchDirs) noexcept {
     const auto tpl =  env.parse_template(templateFile);
     return env.render_to(out, tpl, props);
 }
+
+    const std::filesystem::path AppendTemplateFileExt(const std::string& filename) noexcept{
+        return format(FMT_STRING("{:s}.tpl"), filename);
+    }
 };
