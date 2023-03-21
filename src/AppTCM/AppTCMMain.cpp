@@ -9,6 +9,7 @@
 #include "CmpVerVersion.hpp"
 #include "CmpCGProject.hpp"
 #include "CmpCGLibrary.hpp"
+#include "AppBuildConf.hpp"
 #include <filesystem>
 #include <functional>
 #include <optional>
@@ -72,7 +73,7 @@ const ParseResult& resutl, ostream& out) noexcept{
     assert(codeGenerator);
     const auto prop = opt2prop(resutl);
     if(!prop){
-        print(stderr, FMT_STRING("{:s}: creating template properties failed.\n"), "tcm");
+        print(stderr, FMT_STRING("{:s}: creating template properties failed.\n"), string(AppTCMConf::ProgramName()));
         return false;
     }
     codeGenerator(*prop, resutl, out);
@@ -103,8 +104,7 @@ const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
 }
 
 int main(int argc, char* argv[]) {
-    auto opt = CreateAppArgParser(
-        (argv[0]==nullptr)? "tcm": path(argv[0]).filename(),
+    auto opt = CreateAppArgParser(string(AppTCMConf::ProgramName()),
         "Generat CMake code depending on options.");
     const auto result = opt.parse(argc, argv);
 
