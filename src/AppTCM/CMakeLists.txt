@@ -28,6 +28,8 @@ pantor::inja
 fmt::fmt
 cxxopts::cxxopts
 CmpCG
+CmpFile
+CmpConf
 )
 
 # プログラムのインストール設定
