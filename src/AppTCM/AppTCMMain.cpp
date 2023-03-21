@@ -113,7 +113,15 @@ const ParseResult& result, ostream& out) noexcept{
         PrintError("creating template properties failed.");
         return false;
     }
-    codeGenerator(*prop, resutl, out);
+
+    const auto fileName = tplFilePath(result);
+    const auto filePath = SearchTplFile(fileName, CreateSearchPaths(result));
+    if(filePath.empty()){
+        PrintError(format("template file \"{:s}\" not found.", fileName));
+        return false;
+    }
+    //CompRender::RenderText(out, tplName, prop, addiPaths);
+    out << std::endl;
     // GenerateAddSubdir();
     return true;
 }
