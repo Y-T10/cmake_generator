@@ -105,10 +105,10 @@ const path SearchTplFile(const path& tplFilePath, const vector<path>& searchPath
 const bool DoGenerate(
 const function<const optional<json>(const ParseResult&)>& opt2prop,
 const function<void(const json&, const ParseResult&, ostream&)>& codeGenerator,
-const ParseResult& resutl, ostream& out) noexcept{
+const ParseResult& result, ostream& out) noexcept{
     assert(opt2prop);
     assert(codeGenerator);
-    const auto prop = opt2prop(resutl);
+    const auto prop = opt2prop(result);
     if(!prop){
         PrintError("creating template properties failed.");
         return false;
