@@ -3,6 +3,10 @@ add_executable(tcm)
 set_target_properties(tcm PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
+get_target_property(PROGRAM_NAME tcm NAME)
+if(PROGRAM_NAME EQUAL "PROGRAM_NAME-NOTFOUND")
+    message(SEND_ERROR "Program name not found!")
+endif()
 # Target sources
 target_sources(tcm PRIVATE
 AppTCMMain.cpp
