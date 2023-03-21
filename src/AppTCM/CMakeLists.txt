@@ -29,3 +29,6 @@ fmt::fmt
 cxxopts::cxxopts
 CmpCG
 )
+
+# プログラムのインストール設定
+install(TARGETS tcm DESTINATION ${CMAKE_INSTALL_BINDIR})
