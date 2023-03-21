@@ -49,7 +49,7 @@ const std::optional<inja::json>ArgParseLib(const ParseResult& result) noexcept{
     });
 }
 
-void LoadTplLib(const inja::json& prop, const ParseResult& result, std::ostream& out) noexcept{
+void TplPathLib(const inja::json& prop, const ParseResult& result, std::ostream& out) noexcept{
     const auto addiPaths = CmpCGUtil::ConvertToPaht(result["I"].as<vector<string>>());
     CompRender::RenderText(out, "library", prop, addiPaths);
     out << std::endl;
