@@ -17,6 +17,8 @@
 #include <numeric>
 #include <string>
 #include <vector>
+#include "CmpConfInstall.hpp"
+#include "CmpFileSysPath.hpp"
 
 using namespace std;
 using namespace inja;
@@ -68,6 +70,37 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
     CmpCG::OptionLib(opt);
     return opt;
 }
+
+const vector<path> CreateDefaultPaths() noexcept{
+    const auto homeDir = CmpFile::HomeDir();
+    return vector<path>{
+        current_path() / ".tpl",
+        homeDir.empty()? "": homeDir / format(".{:s}", AppTCMConf::ProgramName()) / "template",
+        CmpConf::InstallDataPath() / "template"
+    };
+}
+
+const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
+    auto searchPaths = CmpFile::ConvertToPaht(result["templatePath"].as<vector<string>>());
+    for(const auto& path: CreateDefaultPaths()){
+        searchPaths.emplace_back(path);
+    }
+    return searchPaths;
+}
+
+const path SearchTplFile(const path& tplFilePath, const vector<path>& searchPath) noexcept {
+    if(tplFilePath.is_absolute()){
+        return exists(tplFilePath)? tplFilePath: "";
+    }
+
+    assert(tplFilePath.is_relative());
+    for(const auto& dir: searchPath){
+        if(exists(dir / tplFilePath)){
+            return dir / tplFilePath;
+        }
+    }
+    return "";
+};
 
 const bool DoGenerate(
 const function<const optional<json>(const ParseResult&)>& opt2prop,
