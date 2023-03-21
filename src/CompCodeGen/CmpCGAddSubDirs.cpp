@@ -41,16 +41,20 @@ namespace {
 }
 
 namespace CmpCG {
-    void GenerateAddSubdir(const std::filesystem::path& dir, const cxxopts::ParseResult& result, std::ostream& out) noexcept {
-        const auto subDirsProps = json::object({
-            {"subDirs", ListSubDirs(dir, [](const path& subDir) -> bool{return exists(subDir / "CMakeLists.txt");})}
-        });
-        if(subDirsProps.empty()){
-            return;
-        }
+    const optional<json> ArgParseAddSubdir(const ParseResult& result) noexcept {
+        assert(result["output-dir"].count());
+        const auto outputDir = path(result["output-dir"].as<string>());
 
-        const auto addiPaths = CmpCGUtil::ConvertToPaht(result["I"].as<vector<string>>());
-        CompRender::RenderText(out, "addSubDirectories", subDirsProps, addiPaths);
-        out << std::endl;
+        const auto subDirs = ListSubDirs(outputDir, [](const path& subDir) -> bool{
+            return exists(subDir / "CMakeLists.txt");
+        });
+
+        return json::object({
+            {"subDirs", subDirs}
+        });
+    }
+
+    const path TplPathAddSubdir(const cxxopts::ParseResult& result) noexcept {
+        return CompRender::AppendTemplateFileExt("addSubDirectories");
     }
 }
