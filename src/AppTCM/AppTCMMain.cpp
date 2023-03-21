@@ -128,11 +128,11 @@ const ParseResult& result, ostream& out) noexcept{
 const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     const auto codeType = result["type"].as<string>();
     if(codeType == "project" || codeType == "proj") {
-        return DoGenerate(CmpCG::ArgParseProj, CmpCG::LoadTplProj, result, out);
+        return DoGenerate(CmpCG::ArgParseProj, CmpCG::TplPathProj, result, out);
     }else if(codeType == "library" || codeType == "lib") {
-        return DoGenerate(CmpCG::ArgParseLib, CmpCG::LoadTplLib, result, out);
+        return DoGenerate(CmpCG::ArgParseLib, CmpCG::TplPathLib, result, out);
     }else if(codeType == "binary" || codeType == "bin") {
-        // DoGenerate(ArgParseBin, LoadTplBin, resutl);
+        // DoGenerate(ArgParseBin, TplPathBin, resutl);
     }else if(codeType == "none") {
         return true;
     }
@@ -175,7 +175,10 @@ int main(int argc, char* argv[]) {
     if(!GenerateCode(result, outputFile)){
         return 1;
     }
-    CmpCG::GenerateAddSubdir(outputDir, result, outputFile);
+
+    if(!DoGenerate(CmpCG::ArgParseAddSubdir, CmpCG::TplPathAddSubdir, result, outputFile)){
+        return 1;
+    }
 
     return 0;
 };
