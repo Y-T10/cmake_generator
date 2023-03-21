@@ -135,13 +135,7 @@ const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     }else if(codeType == "binary" || codeType == "bin") {
         // DoGenerate(ArgParseBin, LoadTplBin, resutl);
     }else if(codeType == "none") {
-        const auto noneProp = [](const ParseResult& result) -> optional<json>{
-            return json();
-        };
-        const auto noneCG = [](const json& prop, const ParseResult& result, ostream& out){
-            return;
-        };
-        return DoGenerate(noneProp, noneCG, result, out);
+        return true;
     }
 
     print(stderr, FMT_STRING("{:s}: unknwon code type \"{:s}\".\n"), "tcm", codeType);
