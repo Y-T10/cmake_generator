@@ -39,6 +39,10 @@ void PrintHelp(const Options& opt, const string& dashOptFmt = "", const string& 
     print(FMT_STRING("{:s}"), helpOpt.help());
 }
 
+inline void PrintError(const std::string& error) noexcept{
+    print(stderr, FMT_STRING("{:s}: {:s}\n"), AppTCMConf::ProgramName(), error);
+}
+
 // 予期せぬ引数に対するエラーを出力する
 void PrintUmmatchedError(const ParseResult& result, const string& programName) noexcept {
     const auto unmatchedList = accumulate(
@@ -73,7 +77,7 @@ const ParseResult& resutl, ostream& out) noexcept{
     assert(codeGenerator);
     const auto prop = opt2prop(resutl);
     if(!prop){
-        print(stderr, FMT_STRING("{:s}: creating template properties failed.\n"), string(AppTCMConf::ProgramName()));
+        PrintError("creating template properties failed.");
         return false;
     }
     codeGenerator(*prop, resutl, out);
@@ -119,17 +123,17 @@ int main(int argc, char* argv[]) {
     }
 
     if(result.count("output-dir") == 0){
-        print(stderr, FMT_STRING("{:s}: no output direcotry is specified.\n"), opt.program());
+        PrintError("no output direcotry is specified.");
         return 2;
     }
 
     const auto outputDir = path(result["output-dir"].as<string>());
     if(!exists(outputDir)){
-        print(stderr, FMT_STRING("{:s}: {} does not exist.\n"), "tcm", outputDir);
+        PrintError(format(FMT_STRING("{} does not exist."), outputDir));
         return 2;
     }
     if(!is_directory(outputDir)){
-        print(stderr, FMT_STRING("{:s}: {} is not directory.\n"), "tcm", outputDir);
+        PrintError(format(FMT_STRING("{} is not directory."), outputDir));
         return 2;
     }
     std::ofstream outputFile(outputDir / "CMakeLists.txt");
