@@ -120,9 +120,8 @@ const ParseResult& result, ostream& out) noexcept{
         PrintError(format("template file \"{:s}\" not found.", fileName));
         return false;
     }
-    //CompRender::RenderText(out, tplName, prop, addiPaths);
+    CompRender::RenderText(out, filePath, *prop);
     out << std::endl;
-    // GenerateAddSubdir();
     return true;
 }
 
