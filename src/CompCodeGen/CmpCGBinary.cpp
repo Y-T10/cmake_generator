@@ -1,4 +1,4 @@
-#include "CmpCGLibrary.hpp"
+#include "CmpCGBinary.hpp"
 
 #include <algorithm>
 #include <string>
@@ -14,12 +14,12 @@ using namespace inja;
 using namespace std;
 
 namespace CmpCG {
-void OptionLib(Options& opt) noexcept {
+void OptionBin(Options& opt) noexcept {
     opt.add_options("library")
         ("lib", "depending libray name in CMake", value<std::vector<string>>()->default_value({}));
 }
 
-const std::optional<inja::json>ArgParseLib(const ParseResult& result) noexcept{
+const std::optional<inja::json>ArgParseBin(const ParseResult& result) noexcept{
     const auto libProps = CmpCGTarget::CreateTargetParam(result);
     if(libProps.empty()){
         return nullopt;
@@ -30,7 +30,7 @@ const std::optional<inja::json>ArgParseLib(const ParseResult& result) noexcept{
     });
 }
 
-const std::filesystem::path TplPathLib(const cxxopts::ParseResult& result) noexcept{
-    return CompRender::AppendTemplateFileExt("library");
+const std::filesystem::path TplPathBin(const cxxopts::ParseResult& result) noexcept{
+    return CompRender::AppendTemplateFileExt("binary");
 }
 };

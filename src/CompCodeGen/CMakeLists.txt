@@ -6,6 +6,8 @@ CmpCGProject.cpp
 CmpCGLibrary.cpp
 CmpCGUtility.cpp
 CmpCGAddSubDirs.cpp
+CmpCGBinary.cpp
+CmpCGTarget.cpp
 )
 
 target_include_directories(CmpCG PUBLIC
