@@ -9,6 +9,7 @@
 #include "CmpVerVersion.hpp"
 #include "CmpCGProject.hpp"
 #include "CmpCGLibrary.hpp"
+#include "CmpCGBinary.hpp"
 #include "AppBuildConf.hpp"
 #include <filesystem>
 #include <functional>
@@ -132,7 +133,7 @@ const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     }else if(codeType == "library" || codeType == "lib") {
         return DoGenerate(CmpCG::ArgParseLib, CmpCG::TplPathLib, result, out);
     }else if(codeType == "binary" || codeType == "bin") {
-        // DoGenerate(ArgParseBin, TplPathBin, resutl);
+        return DoGenerate(CmpCG::ArgParseBin, CmpCG::TplPathBin, result, out);
     }else if(codeType == "none") {
         return true;
     }
