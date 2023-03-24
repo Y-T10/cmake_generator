@@ -5,15 +5,14 @@
 CMakeScriptWizard (CSWiz) は、CMakeが実行するスクリプトを自動生成するツールです．
 生成には雛形となるコードを用いるため、ユーザ独自の雛形を用いてコードを生成することができます．
 
-## 使用例
-プロジェクト用CMakeファイルを生成する．
+## コマンドライン引数
 ```bash
-tcm -t proj /path/to/project
-```
+Usage: csw [options] </path/to/output/direcotry>
 
-バイナリ用CMakeファイルを生成する．
-```bash
-tcm -t bin /path/to/bin-src
+  -h, --help              print this help
+  -t, --type arg          type of code generated (default: none)
+  -n, --name arg          project/library/binary name
+  -I, --templatePath arg  search path for template files (default: "")
 ```
 
 ライブラリ用CMakeファイルを生成する．
