@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.20)
 
 project(CMakeTGen VERSION 0.0.0 LANGUAGES CXX)
 
+option(TCM_NO_DEPENDENCY "Build without no dependency" ON)
+
 cmake_policy(SET CMP0076 NEW)
 cmake_policy(SET CMP0128 NEW)
 set(CMAKE_POLICY_DEFAULT_CMP0128 NEW)
