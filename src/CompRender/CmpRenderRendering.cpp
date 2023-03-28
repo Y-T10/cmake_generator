@@ -27,7 +27,7 @@ std::ostream& RenderText(std::ostream& out, const std::filesystem::path& tplFile
         return out;
     }
 
-    const auto tpl =  env.parse_template(tplFilePath);
+    const auto tpl =  env.parse_template(tplFilePath.string());
     return env.render_to(out, tpl, props);
 }
 
