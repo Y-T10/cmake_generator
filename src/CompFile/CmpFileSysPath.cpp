@@ -1,5 +1,7 @@
 #include "CmpFileSysPath.hpp"
 
+#include <algorithm>
+
 using namespace std;
 using namespace std::filesystem;
 
