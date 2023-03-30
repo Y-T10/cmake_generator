@@ -155,6 +155,30 @@ const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     return false;
 }
 
+const bool CheckArguments(const ParseResult& result) noexcept {
+    if(!result.unmatched().empty()) {
+        PrintUmmatchedError(result);
+        return false;
+    }
+
+    if(result.count("output-dir") == 0){
+        PrintError("no output direcotry is specified.");
+        return false;
+    }
+
+    const auto outputDir = path(result["output-dir"].as<string>());
+    if(!exists(outputDir)){
+        PrintError(format(FMT_STRING("{} does not exist."), outputDir));
+        return false;
+    }
+    if(!is_directory(outputDir)){
+        PrintError(format(FMT_STRING("{} is not directory."), outputDir));
+        return false;
+    }
+
+    return true;
+}
+
 int main(int argc, char* argv[]) {
     auto opt = CreateAppArgParser(string(AppTCMConf::ProgramName()),
         "Generat CMake code depending on options.");
