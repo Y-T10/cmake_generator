@@ -21,4 +21,5 @@ cxxopts::cxxopts
 pantor::inja
 CmpRender
 CmpConf
+CmpFile
 )
