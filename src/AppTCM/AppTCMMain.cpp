@@ -180,8 +180,7 @@ const bool CheckArguments(const ParseResult& result) noexcept {
 }
 
 int main(int argc, char* argv[]) {
-    auto opt = CreateAppArgParser(string(AppTCMConf::ProgramName()),
-        "Generat CMake code depending on options.");
+    auto opt = CreateAppArgParser("Generat CMake code depending on options.");
     const auto result = opt.parse(argc, argv);
 
     if(!result.unmatched().empty()) {
