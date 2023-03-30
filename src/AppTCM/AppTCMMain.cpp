@@ -84,12 +84,7 @@ const path SystemDirectory() noexcept {
 }
 
 const vector<path> CreateDefaultPaths() noexcept{
-    const auto homeDir = CmpFile::HomeDir();
-    return vector<path>{
-        current_path() / ".tpl",
-        homeDir.empty()? "": homeDir / format(".{:s}", AppTCMConf::ProgramName()) / "template",
-        CmpConf::InstallDataPath() / "template"
-    };
+    return vector<path>{current_path(), LocalDirectory(), SystemDirectory()};
 }
 
 const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
