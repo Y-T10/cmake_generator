@@ -183,30 +183,16 @@ int main(int argc, char* argv[]) {
     auto opt = CreateAppArgParser("Generat CMake code depending on options.");
     const auto result = opt.parse(argc, argv);
 
-    if(!result.unmatched().empty()) {
-        PrintUmmatchedError(result, opt.program());
-        return 1;
-    }
-
     if(!!result.count("help") || result.arguments().empty()){
         PrintHelp(opt, "[options]", "</path/to/output/direcotry>");
         return 0;
     }
 
-    if(result.count("output-dir") == 0){
-        PrintError("no output direcotry is specified.");
-        return 2;
+    if(!CheckArguments(result)){
+        return 1;
     }
 
     const auto outputDir = path(result["output-dir"].as<string>());
-    if(!exists(outputDir)){
-        PrintError(format(FMT_STRING("{} does not exist."), outputDir));
-        return 2;
-    }
-    if(!is_directory(outputDir)){
-        PrintError(format(FMT_STRING("{} is not directory."), outputDir));
-        return 2;
-    }
     std::ofstream outputFile(outputDir / "CMakeLists.txt");
 
     if(!GenerateCode(result, outputFile)){
