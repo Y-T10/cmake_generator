@@ -72,6 +72,17 @@ Options CreateAppArgParser(const string& programName, const string& desc) noexce
     return opt;
 }
 
+const path LocalDirectory() noexcept {
+    if(CmpFile::HomeDir().empty()){
+        return "";
+    }
+    return CmpFile::HomeDir() / format(".{:s}", AppTCMConf::ProgramName()) / "template";
+}
+
+const path SystemDirectory() noexcept {
+    return CmpConf::InstallDataPath() / "template";
+}
+
 const vector<path> CreateDefaultPaths() noexcept{
     const auto homeDir = CmpFile::HomeDir();
     return vector<path>{
