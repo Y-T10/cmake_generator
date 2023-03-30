@@ -19,4 +19,11 @@ namespace CmpFile{
      * @return 変換されたパスのリスト
      */
     const std::vector<std::filesystem::path> ConvertToPaht(const std::vector<std::string>& srcPaths) noexcept;
+
+    /**
+     * @brief 絶対パスに変換して返す
+     * @retval =="" 変換失敗
+     * @retval !="" 変換成功
+     */
+    const std::filesystem::path ResolvePath(const std::filesystem::path& path) noexcept;
 }
