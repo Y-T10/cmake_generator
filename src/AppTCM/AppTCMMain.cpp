@@ -47,18 +47,19 @@ inline void PrintError(const std::string& error) noexcept{
 }
 
 // 予期せぬ引数に対するエラーを出力する
-void PrintUmmatchedError(const ParseResult& result, const string& programName) noexcept {
+void PrintUmmatchedError(const ParseResult& result) noexcept {
     const auto unmatchedList = accumulate(
         result.unmatched().begin(), result.unmatched().end(),
         string(""), [](const string& l, const string& r){
             return format(FMT_STRING("{:s}\"{:s}\" "), l, r);
         });
-    print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), programName, unmatchedList);
-    print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), programName, unmatchedList);
+    print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), AppTCMConf::ProgramName(), unmatchedList);
+    print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), AppTCMConf::ProgramName(), unmatchedList);
 }
 
-Options CreateAppArgParser(const string& programName, const string& desc) noexcept {
-    Options opt(programName, format(FMT_STRING("{:s}: {:s}"), programName, desc));
+Options CreateAppArgParser(const string& desc) noexcept {
+    const auto proName = string(AppTCMConf::ProgramName());
+    Options opt(proName, format(FMT_STRING("{:s}: {:s}"), proName, desc));
     opt.allow_unrecognised_options();
     opt.add_options()
         ("h,help", "print this help")
