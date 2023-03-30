@@ -192,7 +192,11 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    const auto outputDir = path(result["output-dir"].as<string>());
+    const auto outputDir = CmpFile::ResolvePath(path(result["output-dir"].as<string>()));
+    if(outputDir.empty()) {
+        PrintError(format(FMT_STRING("failed resolving a output path.")));
+        return 1;
+    }
     std::ofstream outputFile(outputDir / "CMakeLists.txt");
 
     if(!GenerateCode(result, outputFile)){
