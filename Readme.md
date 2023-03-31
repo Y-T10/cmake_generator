@@ -1,43 +1,31 @@
-# CMakeTGen
+# CMakeScriptWizard
 
-CMakeTGen は、CMake で利用するファイルを雛形から生成するツールです．
-プログラムは現在開発中です。
+----
+## 概要
+CMakeScriptWizard (CSWiz) は、CMakeが実行するスクリプトを自動生成するツールです．
+生成には雛形となるコードを用いるため、ユーザ独自の雛形を用いてコードを生成することができます．
 
-## プロジェクトの状態
-
-現在このプロジェクトはツールの設計段階にあります．
-
-## 使用例
-プロジェクト用CMakeファイルを生成する．
+## コマンドライン引数
 ```bash
-tcm -t proj /path/to/project
+Usage: csw [options] </path/to/output/direcotry>
+
+  -h, --help              print this help
+  -t, --type arg          type of code generated (default: none)
+  -n, --name arg          project/library/binary name
+  -I, --templatePath arg  search path for template files (default: "")
 ```
 
-バイナリ用CMakeファイルを生成する．
-```bash
-tcm -t bin /path/to/bin-src
+## 使い方
+生成されるコードの種類と出力先を指定して`csw`を実行する．
+
+```
+csw -t <script-type> /path/to/output
 ```
 
-ライブラリ用CMakeファイルを生成する．
-```bash
-tcm -t lib /path/to/lib-src
-```
-
-## テンプレートファイルの置き場所
-tcmは以下の上から順にテンプレートファイルを探します．
-
-```bash
-${INSTALL_PREFIX}/share/tcm/template
-${HOME}/.tcm/.tpl
-$(pwd)/.tpl
-$(pwd)
-```
-
-## ツールでできるようにしたいこと
-* template内の雛形ファイルからコードを自動生成する。
-  - 雛形ファイルはCMakeの記法とテンプレートエンジンJinjaのテンプレート記法を混ぜたもの。
-* ユーザが指定した設定より雛形ファイルからCMakeListst.txtを生成する．
-* ユーザの開発環境を調べてCMakeListst.txtを更新する．
+## TODO
+* [] スクリプトの種類の指定方法を変更．
+  - [] 複数選択できるようにする．
+  - [] オプションを使用しない．
 
 ## ライセンス
 ### fmt
