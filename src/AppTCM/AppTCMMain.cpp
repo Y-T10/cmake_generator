@@ -47,38 +47,46 @@ inline void PrintError(const std::string& error) noexcept{
 }
 
 // 予期せぬ引数に対するエラーを出力する
-void PrintUmmatchedError(const ParseResult& result, const string& programName) noexcept {
+void PrintUmmatchedError(const ParseResult& result) noexcept {
     const auto unmatchedList = accumulate(
         result.unmatched().begin(), result.unmatched().end(),
         string(""), [](const string& l, const string& r){
             return format(FMT_STRING("{:s}\"{:s}\" "), l, r);
         });
-    print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), programName, unmatchedList);
-    print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), programName, unmatchedList);
+    print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), AppTCMConf::ProgramName(), unmatchedList);
+    print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), AppTCMConf::ProgramName(), unmatchedList);
 }
 
-Options CreateAppArgParser(const string& programName, const string& desc) noexcept {
-    Options opt(programName, format(FMT_STRING("{:s}: {:s}"), programName, desc));
+Options CreateAppArgParser(const string& desc) noexcept {
+    const auto proName = string(AppTCMConf::ProgramName());
+    Options opt(proName, format(FMT_STRING("{:s}: {:s}"), proName, desc));
     opt.allow_unrecognised_options();
     opt.add_options()
         ("h,help", "print this help")
         ("t,type", "type of code generated", value<string>()->default_value("none")->no_implicit_value())
         ("n,name", "project/library/binary name", value<string>())
         ("I,templatePath", "search path for template files", value<vector<string>>()->default_value({}))
-        ("output-dir", "directory where CMake files are output", value<string>());
+        ("output-dir", "directory where CMake files are output", value<string>())
+        ("verbose", "enable verbose output");
     opt.parse_positional({"output-dir"});
     CmpCG::OptionProj(opt);
     CmpCG::OptionLib(opt);
     return opt;
 }
 
+const path LocalDirectory() noexcept {
+    if(CmpFile::HomeDir().empty()){
+        return "";
+    }
+    return CmpFile::HomeDir() / format(".{:s}", AppTCMConf::ProgramName()) / "template";
+}
+
+const path SystemDirectory() noexcept {
+    return CmpConf::InstallDataPath() / "template";
+}
+
 const vector<path> CreateDefaultPaths() noexcept{
-    const auto homeDir = CmpFile::HomeDir();
-    return vector<path>{
-        current_path() / ".tpl",
-        homeDir.empty()? "": homeDir / format(".{:s}", AppTCMConf::ProgramName()) / "template",
-        CmpConf::InstallDataPath() / "template"
-    };
+    return vector<path>{current_path(), LocalDirectory(), SystemDirectory()};
 }
 
 const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
@@ -86,6 +94,12 @@ const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
     for(const auto& path: CreateDefaultPaths()){
         searchPaths.emplace_back(path);
     }
+    #ifndef NDEBUG
+    print(stderr, "Search path List\n");
+    for(const auto& path: searchPaths){
+        print(stderr, "{}\n", path);
+    }
+    #endif
     return searchPaths;
 }
 
@@ -142,34 +156,47 @@ const bool GenerateCode(const ParseResult& result, ostream& out) noexcept {
     return false;
 }
 
-int main(int argc, char* argv[]) {
-    auto opt = CreateAppArgParser(string(AppTCMConf::ProgramName()),
-        "Generat CMake code depending on options.");
-    const auto result = opt.parse(argc, argv);
-
+const bool CheckArguments(const ParseResult& result) noexcept {
     if(!result.unmatched().empty()) {
-        PrintUmmatchedError(result, opt.program());
-        return 1;
+        PrintUmmatchedError(result);
+        return false;
     }
+
+    if(result.count("output-dir") == 0){
+        PrintError("no output direcotry is specified.");
+        return false;
+    }
+
+    const auto outputDir = path(result["output-dir"].as<string>());
+    if(!exists(outputDir)){
+        PrintError(format(FMT_STRING("{} does not exist."), outputDir));
+        return false;
+    }
+    if(!is_directory(outputDir)){
+        PrintError(format(FMT_STRING("{} is not directory."), outputDir));
+        return false;
+    }
+
+    return true;
+}
+
+int main(int argc, char* argv[]) {
+    auto opt = CreateAppArgParser("Generat CMake code depending on options.");
+    const auto result = opt.parse(argc, argv);
 
     if(!!result.count("help") || result.arguments().empty()){
         PrintHelp(opt, "[options]", "</path/to/output/direcotry>");
         return 0;
     }
 
-    if(result.count("output-dir") == 0){
-        PrintError("no output direcotry is specified.");
-        return 2;
+    if(!CheckArguments(result)){
+        return 1;
     }
 
-    const auto outputDir = path(result["output-dir"].as<string>());
-    if(!exists(outputDir)){
-        PrintError(format(FMT_STRING("{} does not exist."), outputDir));
-        return 2;
-    }
-    if(!is_directory(outputDir)){
-        PrintError(format(FMT_STRING("{} is not directory."), outputDir));
-        return 2;
+    const auto outputDir = CmpFile::ResolvePath(path(result["output-dir"].as<string>()));
+    if(outputDir.empty()) {
+        PrintError(format(FMT_STRING("failed resolving a output path.")));
+        return 1;
     }
     std::ofstream outputFile(outputDir / "CMakeLists.txt");
 

@@ -20,12 +20,15 @@ namespace CmpFile{
             if(str.empty()){
                 return "";
             }
-            if(str.starts_with('/')) {
-                return str;
-            }
-            return current_path() / str;
+            return ResolvePath(str);
         });
         return dst;
+    };
+
+    const path ResolvePath(const path& oldPaht) noexcept {
+        std::error_code fsError;
+        const auto absPath = canonical(oldPaht, fsError);
+        return fsError? "": absPath;
     };
 }
 

@@ -1,6 +1,7 @@
 #include "CmpCGUtility.hpp"
 
 #include <cassert>
+#include "CmpFileSysPath.hpp"
 
 using namespace std::filesystem;
 using namespace cxxopts;
@@ -40,13 +41,11 @@ namespace CmpCGUtil {
         }
 
         assert(!!result["output-dir"].count());
-        const path outputPath = result["output-dir"].as<string>();
+        const path outputPath = CmpFile::ResolvePath(result["output-dir"].as<string>());
         assert(exists(outputPath));
         assert(is_directory(outputPath));
-
-        if(!(prev(outputPath.end())->stem().empty())){
-            return prev(outputPath.end())->stem().string();
-        }
-        return prev(outputPath.end(), 2)->stem().string();
+        assert(outputPath.has_filename());
+        
+        return outputPath.filename().string();
     }
 };
