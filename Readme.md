@@ -22,11 +22,10 @@ Usage: csw [options] </path/to/output/direcotry>
 csw -t <script-type> /path/to/output
 ```
 
-## ツールでできるようにしたいこと
-* template内の雛形ファイルからコードを自動生成する。
-  - 雛形ファイルはCMakeの記法とテンプレートエンジンJinjaのテンプレート記法を混ぜたもの。
-* ユーザが指定した設定より雛形ファイルからCMakeListst.txtを生成する．
-* ユーザの開発環境を調べてCMakeListst.txtを更新する．
+## TODO
+* [] スクリプトの種類の指定方法を変更．
+  - [] 複数選択できるようにする．
+  - [] オプションを使用しない．
 
 ## ライセンス
 ### fmt
