@@ -66,7 +66,8 @@ Options CreateAppArgParser(const string& desc) noexcept {
         ("t,type", "type of code generated", value<string>()->default_value("none")->no_implicit_value())
         ("n,name", "project/library/binary name", value<string>())
         ("I,templatePath", "search path for template files", value<vector<string>>()->default_value({}))
-        ("output-dir", "directory where CMake files are output", value<string>());
+        ("output-dir", "directory where CMake files are output", value<string>())
+        ("verbose", "enable verbose output");
     opt.parse_positional({"output-dir"});
     CmpCG::OptionProj(opt);
     CmpCG::OptionLib(opt);
