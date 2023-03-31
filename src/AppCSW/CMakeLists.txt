@@ -19,9 +19,9 @@ target_include_directories(csw PUBLIC
 ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-target_link_options(csw PRIVATE
-    $<${MINGW}:-static -static-libgcc -static-libstdc++>
-)
+if(DEFINED MINGW AND (${MINGW}))
+target_link_options(csw PRIVATE -static -static-libgcc -static-libstdc++)
+endif()
 
 # Target libraries
 # パッケージライブラリなら
