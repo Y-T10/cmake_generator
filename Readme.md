@@ -22,16 +22,6 @@ Usage: csw [options] </path/to/output/direcotry>
 csw -t <script-type> /path/to/output
 ```
 
-## テンプレートファイルの置き場所
-tcmは以下の上から順にテンプレートファイルを探します．
-
-```bash
-${INSTALL_PREFIX}/share/tcm/template
-${HOME}/.tcm/.tpl
-$(pwd)/.tpl
-$(pwd)
-```
-
 ## ツールでできるようにしたいこと
 * template内の雛形ファイルからコードを自動生成する。
   - 雛形ファイルはCMakeの記法とテンプレートエンジンJinjaのテンプレート記法を混ぜたもの。
