@@ -2,7 +2,7 @@
 
 #include <string_view>
 
-namespace AppTCMConf {
+namespace AppCSWConf {
     /**
      * @brief プログラム名を返す
      */
