@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(CMakeTGen VERSION 0.0.0 LANGUAGES CXX)
+project(CSWiz VERSION 0.0.0 LANGUAGES CXX)
 
 cmake_policy(SET CMP0076 NEW)
 cmake_policy(SET CMP0128 NEW)
