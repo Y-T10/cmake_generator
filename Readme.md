@@ -15,9 +15,11 @@ Usage: csw [options] </path/to/output/direcotry>
   -I, --templatePath arg  search path for template files (default: "")
 ```
 
-ライブラリ用CMakeファイルを生成する．
-```bash
-tcm -t lib /path/to/lib-src
+## 使い方
+生成されるコードの種類と出力先を指定して`csw`を実行する．
+
+```
+csw -t <script-type> /path/to/output
 ```
 
 ## テンプレートファイルの置き場所
