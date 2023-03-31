@@ -43,7 +43,7 @@ void PrintHelp(const Options& opt, const string& dashOptFmt = "", const string& 
 }
 
 inline void PrintError(const std::string& error) noexcept{
-    print(stderr, FMT_STRING("{:s}: {:s}\n"), AppTCMConf::ProgramName(), error);
+    print(stderr, FMT_STRING("{:s}: {:s}\n"), AppCSWConf::ProgramName(), error);
 }
 
 // 予期せぬ引数に対するエラーを出力する
@@ -53,12 +53,12 @@ void PrintUmmatchedError(const ParseResult& result) noexcept {
         string(""), [](const string& l, const string& r){
             return format(FMT_STRING("{:s}\"{:s}\" "), l, r);
         });
-    print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), AppTCMConf::ProgramName(), unmatchedList);
-    print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), AppTCMConf::ProgramName(), unmatchedList);
+    print(stderr, FMT_STRING("{:s}: unrecognized parameter(s) -- {:s}\n"), AppCSWConf::ProgramName(), unmatchedList);
+    print(stderr, FMT_STRING("Try \'{:s} --help\' for more information.\n"), AppCSWConf::ProgramName(), unmatchedList);
 }
 
 Options CreateAppArgParser(const string& desc) noexcept {
-    const auto proName = string(AppTCMConf::ProgramName());
+    const auto proName = string(AppCSWConf::ProgramName());
     Options opt(proName, format(FMT_STRING("{:s}: {:s}"), proName, desc));
     opt.allow_unrecognised_options();
     opt.add_options()
@@ -78,7 +78,7 @@ const path LocalDirectory() noexcept {
     if(CmpFile::HomeDir().empty()){
         return "";
     }
-    return CmpFile::HomeDir() / format(".{:s}", AppTCMConf::ProgramName()) / "template";
+    return CmpFile::HomeDir() / format(".{:s}", AppCSWConf::ProgramName()) / "template";
 }
 
 const path SystemDirectory() noexcept {

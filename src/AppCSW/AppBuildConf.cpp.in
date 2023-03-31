@@ -1,6 +1,6 @@
 #include "AppBuildConf.hpp"
 
-namespace AppTCMConf {
+namespace AppCSWConf {
     const std::string_view ProgramName() noexcept { 
         return "@PROGRAM_NAME@";
     }
