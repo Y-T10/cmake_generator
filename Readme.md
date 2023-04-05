@@ -1,6 +1,5 @@
 # CMakeScriptWizard
 
-----
 ## 概要
 CMakeScriptWizard (CSWiz) は、CMakeが実行するスクリプトを自動生成するツールです．
 生成には雛形となるコードを用いるため、ユーザ独自の雛形を用いてコードを生成することができます．
