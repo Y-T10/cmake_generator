@@ -1,6 +1,3 @@
-# データのインストール先
-set(PROJECT_DATA_DIR "${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}")
-
 # テンプレートファイルをインストールする
 install(
     DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
