@@ -74,6 +74,10 @@ Options CreateAppArgParser(const string& desc) noexcept {
     return opt;
 }
 
+const path WorkingDirectory() noexcept {
+    return current_path() / "templates";
+}
+
 const path LocalDirectory() noexcept {
     if(CmpFile::HomeDir().empty()){
         return "";
@@ -86,7 +90,7 @@ const path SystemDirectory() noexcept {
 }
 
 const vector<path> CreateDefaultPaths() noexcept{
-    return vector<path>{current_path(), LocalDirectory(), SystemDirectory()};
+    return vector<path>{current_path(), WorkingDirectory(), LocalDirectory(), SystemDirectory()};
 }
 
 const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
