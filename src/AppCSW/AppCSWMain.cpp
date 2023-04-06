@@ -74,19 +74,23 @@ Options CreateAppArgParser(const string& desc) noexcept {
     return opt;
 }
 
+const path WorkingDirectory() noexcept {
+    return current_path() / "templates";
+}
+
 const path LocalDirectory() noexcept {
     if(CmpFile::HomeDir().empty()){
         return "";
     }
-    return CmpFile::HomeDir() / format(".{:s}", AppCSWConf::ProgramName()) / "template";
+    return CmpFile::HomeDir() / format(".{:s}", AppCSWConf::ProgramName()) / "templates";
 }
 
 const path SystemDirectory() noexcept {
-    return CmpConf::InstallDataPath() / "template";
+    return CmpConf::InstallDataPath() / "templates";
 }
 
 const vector<path> CreateDefaultPaths() noexcept{
-    return vector<path>{current_path(), LocalDirectory(), SystemDirectory()};
+    return vector<path>{current_path(), WorkingDirectory(), LocalDirectory(), SystemDirectory()};
 }
 
 const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
@@ -94,12 +98,13 @@ const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
     for(const auto& path: CreateDefaultPaths()){
         searchPaths.emplace_back(path);
     }
-    #ifndef NDEBUG
+    if(!result.count("verbose")){
+        return searchPaths;
+    }
     print(stderr, "Search path List\n");
     for(const auto& path: searchPaths){
         print(stderr, "{}\n", path);
     }
-    #endif
     return searchPaths;
 }
 

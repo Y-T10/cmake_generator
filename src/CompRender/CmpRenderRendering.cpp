@@ -32,6 +32,6 @@ std::ostream& RenderText(std::ostream& out, const std::filesystem::path& tplFile
 }
 
     const std::filesystem::path AppendTemplateFileExt(const std::string& filename) noexcept{
-        return format(FMT_STRING("{:s}.tpl"), filename);
+        return format(FMT_STRING("{:s}.jinja"), filename);
     }
 };

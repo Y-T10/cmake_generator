@@ -1,0 +1,7 @@
+# テンプレートファイルをインストールする
+install(
+    DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    DESTINATION "${PROJECT_INSTALL_DATA_DIR}/templates"
+    PATTERN ".jinja" PERMISSIONS OWNER_READ GROUP_READ
+    PATTERN "CMakeLists.txt" EXCLUDE
+)

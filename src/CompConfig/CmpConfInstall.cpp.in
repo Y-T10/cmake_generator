@@ -8,6 +8,6 @@ namespace CmpConf {
     }
 
     const path InstallDataPath() noexcept{
-        return path(InstallPrefix()) / "@CMAKE_INSTALL_DATAROOTDIR@" / "@PROJECT_NAME@";
+        return path(InstallPrefix()) / "@PROJECT_INSTALL_DATA_DIR@";
     }
 }
