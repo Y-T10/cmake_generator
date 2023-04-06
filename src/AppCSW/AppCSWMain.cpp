@@ -98,12 +98,13 @@ const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
     for(const auto& path: CreateDefaultPaths()){
         searchPaths.emplace_back(path);
     }
-    #ifndef NDEBUG
+    if(!result.count("verbose")){
+        return searchPaths;
+    }
     print(stderr, "Search path List\n");
     for(const auto& path: searchPaths){
         print(stderr, "{}\n", path);
     }
-    #endif
     return searchPaths;
 }
 
