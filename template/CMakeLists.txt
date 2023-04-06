@@ -1,5 +1,5 @@
 # データのインストール先
-set(PROJECT_DATA_DIR "${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}")
+set(PROJECT_DATA_DIR "${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/templates")
 
 # テンプレートファイルをインストールする
 install(
