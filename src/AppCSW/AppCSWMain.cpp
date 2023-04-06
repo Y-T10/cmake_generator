@@ -78,11 +78,11 @@ const path LocalDirectory() noexcept {
     if(CmpFile::HomeDir().empty()){
         return "";
     }
-    return CmpFile::HomeDir() / format(".{:s}", AppCSWConf::ProgramName()) / "template";
+    return CmpFile::HomeDir() / format(".{:s}", AppCSWConf::ProgramName()) / "templates";
 }
 
 const path SystemDirectory() noexcept {
-    return CmpConf::InstallDataPath() / "template";
+    return CmpConf::InstallDataPath() / "templates";
 }
 
 const vector<path> CreateDefaultPaths() noexcept{
