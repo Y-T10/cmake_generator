@@ -16,6 +16,24 @@ AppHello/
     └── say-hello.hpp
 ```
 
+### テンプレートファイルの追加
+`csw`は作業ディレクトリの`templates`からテンプレートファイルを読み込むため、`AppHello`に`templates`ディレクトリを追加し、そこにテンプレートファイルを追加します．
+
+`templates`追加後の`AppHello`．
+
+```
+AppHello/
+├─src
+│  ├── main.cpp
+│  ├── say-hello.cpp
+│  └── say-hello.hpp
+└── templates
+    ├── addSubDirectories.jinja
+    ├── binary.jinja
+    ├── library.jinja
+    └── project.jinja
+```
+
 ### プログラムのビルドスクリプトの生成
 プログラムのビルドスクリプトは下記の通りに実行することで生成できます．
 
