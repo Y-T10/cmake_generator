@@ -4,21 +4,71 @@
 CMakeScriptWizard (CSWiz) は、CMakeが実行するスクリプトを自動生成するツールです．
 生成には雛形となるコードを用いるため、ユーザ独自の雛形を用いてコードを生成することができます．
 
-## コマンドライン引数
-```bash
-Usage: csw [options] </path/to/output/direcotry>
-
-  -h, --help              print this help
-  -t, --type arg          type of code generated (default: none)
-  -n, --name arg          project/library/binary name
-  -I, --templatePath arg  search path for template files (default: "")
-```
-
 ## 使い方
-生成されるコードの種類と出力先を指定して`csw`を実行する．
+`sample`にある`SayHello`プログラムのディレクトリを例にツールの使い方を説明します．
+移行のコマンド操作は`AppHello`ディレクトリにて行っていると考えてください．
 
 ```
-csw -t <script-type> /path/to/output
+AppHello/
+└─src
+    ├── main.cpp
+    ├── say-hello.cpp
+    └── say-hello.hpp
+```
+
+### プログラムのビルドスクリプトの生成
+プログラムのビルドスクリプトは下記の通りに実行することで生成できます．
+
+```bash
+path/to/csw -n SayHello -t binary ./src/
+```
+
+生成されるコードの例．
+
+```CMake
+# define library
+add_executable(SayHello)
+
+# Build properties
+
+# Target sources
+target_sources(SayHello PRIVATE
+main.cpp
+say-hello.cpp
+)
+
+# Target include directories
+target_include_directories(SayHello PUBLIC
+${CMAKE_CURRENT_SOURCE_DIR}
+)
+```
+
+### プロジェクトファイルの生成
+プロジェクト用スクリプトは下記の通りに実行することで生成できます．
+
+```bash
+path/to/csw -t project ./
+```
+
+生成されるコードの例．
+
+```CMake
+cmake_minimum_required(VERSION 3.22.1)
+
+project(AppHello VERSION 0.0.0 LANGUAGES CXX)
+
+cmake_policy(SET CMP0076 NEW)
+set(CMAKE_POLICY_DEFAULT_CMP0076 NEW)
+cmake_policy(SET CMP0128 NEW)
+set(CMAKE_POLICY_DEFAULT_CMP0128 NEW)
+cmake_policy(SET CMP0074 NEW)
+set(CMAKE_POLICY_DEFAULT_CMP0074 NEW)
+cmake_policy(SET CMP0077 NEW)
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
+
+set(CMAKE_BUILD_TYPE Release)
+# sub directories
+add_subdirectory(src)
 ```
 
 ## TODO
