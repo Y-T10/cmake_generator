@@ -74,26 +74,26 @@ Options CreateAppArgParser(const string& desc) noexcept {
     return opt;
 }
 
-const path WorkingDirectory() noexcept {
+const std::filesystem::path WorkingDirectory() noexcept {
     return current_path() / "templates";
 }
 
-const path LocalDirectory() noexcept {
+const std::filesystem::path LocalDirectory() noexcept {
     if(CmpFile::HomeDir().empty()){
         return "";
     }
-    return CmpFile::HomeDir() / format(".{:s}", AppCSWConf::ProgramName()) / "templates";
+    return CmpFile::HomeDir() / fmt::format(".{:s}", AppCSWConf::ProgramName()) / "templates";
 }
 
-const path SystemDirectory() noexcept {
+const std::filesystem::path SystemDirectory() noexcept {
     return CmpConf::InstallDataPath() / "templates";
 }
 
-const vector<path> CreateDefaultPaths() noexcept{
-    return vector<path>{current_path(), WorkingDirectory(), LocalDirectory(), SystemDirectory()};
+const vector<std::filesystem::path> CreateDefaultPaths() noexcept{
+    return vector<std::filesystem::path>{current_path(), WorkingDirectory(), LocalDirectory(), SystemDirectory()};
 }
 
-const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
+const vector<std::filesystem::path> CreateSearchPaths(const ParseResult& result) noexcept {
     auto searchPaths = CmpFile::ConvertToPaht(result["templatePath"].as<vector<string>>());
     for(const auto& path: CreateDefaultPaths()){
         searchPaths.emplace_back(path);
@@ -108,7 +108,7 @@ const vector<path> CreateSearchPaths(const ParseResult& result) noexcept {
     return searchPaths;
 }
 
-const path SearchTplFile(const path& tplFilePath, const vector<path>& searchPath) noexcept {
+const std::filesystem::path SearchTplFile(const std::filesystem::path& tplFilePath, const vector<std::filesystem::path>& searchPath) noexcept {
     if(tplFilePath.is_absolute()){
         return exists(tplFilePath)? tplFilePath: "";
     }
@@ -124,7 +124,7 @@ const path SearchTplFile(const path& tplFilePath, const vector<path>& searchPath
 
 const bool DoGenerate(
 const function<const optional<json>(const ParseResult&)>& opt2prop,
-const function<const path(const ParseResult&)>& tplFilePath,
+const function<const std::filesystem::path(const ParseResult&)>& tplFilePath,
 const ParseResult& result, ostream& out) noexcept{
     assert(opt2prop);
     assert(tplFilePath);
@@ -137,7 +137,7 @@ const ParseResult& result, ostream& out) noexcept{
     const auto fileName = tplFilePath(result);
     const auto filePath = SearchTplFile(fileName, CreateSearchPaths(result));
     if(filePath.empty()){
-        PrintError(format("template file \"{:s}\" not found.", fileName));
+        PrintError(fmt::format("template file \"{:s}\" not found.", fileName.string()));
         return false;
     }
     CompRender::RenderText(out, filePath, *prop);
@@ -172,7 +172,7 @@ const bool CheckArguments(const ParseResult& result) noexcept {
         return false;
     }
 
-    const auto outputDir = path(result["output-dir"].as<string>());
+    const auto outputDir = std::filesystem::path(result["output-dir"].as<string>());
     if(!exists(outputDir)){
         PrintError(format(FMT_STRING("{} does not exist."), outputDir));
         return false;
@@ -198,7 +198,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    const auto outputDir = CmpFile::ResolvePath(path(result["output-dir"].as<string>()));
+    const auto outputDir = CmpFile::ResolvePath(std::filesystem::path(result["output-dir"].as<string>()));
     if(outputDir.empty()) {
         PrintError(format(FMT_STRING("failed resolving a output path.")));
         return 1;
