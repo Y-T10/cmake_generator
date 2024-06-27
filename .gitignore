@@ -4,3 +4,6 @@
 # CMake
 *build*/
 bin
+
+# caches
+.cache/
