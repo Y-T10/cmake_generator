@@ -1,12 +1,9 @@
 #include "CmpRenderRendering.hpp"
 
 #include <iostream>
-#include <cstdint>
 #include "fmt/format.h"
-#include "fmt/std.h"
 #include "cxxopts.hpp"
 #include "CmpCGAddSubDirs.hpp"
-#include "CmpVerVersion.hpp"
 #include "CmpCGProject.hpp"
 #include "CmpCGLibrary.hpp"
 #include "CmpCGBinary.hpp"

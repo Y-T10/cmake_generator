@@ -5,7 +5,6 @@
 #include <filesystem>
 #include <string>
 #include <ostream>
-#include <vector>
 
 namespace CompRender {
     /// @brief コードを生成しストリームに書き出す

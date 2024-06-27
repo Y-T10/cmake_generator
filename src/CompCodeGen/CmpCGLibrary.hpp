@@ -3,7 +3,6 @@
 #include <optional>
 #include "cxxopts.hpp"
 #include "inja/inja.hpp"
-#include <ostream>
 
 namespace CmpCG {
     /// @brief プロジェクト関係のオプションを設定する

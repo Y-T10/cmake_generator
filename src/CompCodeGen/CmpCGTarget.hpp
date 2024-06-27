@@ -1,6 +1,5 @@
 #pragma once
 
-#include <optional>
 #include "cxxopts.hpp"
 #include "inja/inja.hpp"
 

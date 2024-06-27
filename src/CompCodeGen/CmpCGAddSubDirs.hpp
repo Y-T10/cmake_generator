@@ -4,7 +4,6 @@
 #include "cxxopts.hpp"
 #include <filesystem>
 #include <optional>
-#include <ostream>
 
 namespace CmpCG {
     /// @brief 引数のパース結果からテンプレートのプロパティを生成する

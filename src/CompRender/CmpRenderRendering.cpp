@@ -1,11 +1,9 @@
 #include "CmpRenderRendering.hpp"
 
 #include <filesystem>
-#include <optional>
 #include <ostream>
 #include <cstdlib>
 #include "fmt/format.h"
-#include "CmpConfInstall.hpp"
 
 using namespace std::filesystem;
 using namespace inja;
