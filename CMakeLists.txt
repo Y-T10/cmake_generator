@@ -6,6 +6,12 @@ endif()
 
 project(cmake_generator VERSION 0.0.0 LANGUAGES CXX)
 
+# GNUのインストール先ディレクトリを使用
+include(GNUInstallDirs)
+
+# データのインストール先
+set(PROJECT_INSTALL_DATA_DIR "${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}")
+
 add_subdirectory(src)
 add_subdirectory(library)
 add_subdirectory(templates)
