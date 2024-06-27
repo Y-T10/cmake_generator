@@ -1,12 +1,7 @@
-cmake_minimum_required(VERSION {{cmakeVersionMin}})
+cmake_minimum_required(VERSION {{cmakeVersionMin}}...{{cmakeVersionMin}})
+
+if(${CMAKE_VERSION} VERSION_LESS 3.12)
+    cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
+endif()
 
 project({{project.name}} VERSION {{project.version}} LANGUAGES {{project.lang}})
-
-{% for policy in project.policies %}
-cmake_policy(SET CMP{{policy.number}} {{policy.value}})
-{% if policy.isGlobal %}
-set(CMAKE_POLICY_DEFAULT_CMP{{policy.number}} {{policy.value}})
-{% endif %}
-{% endfor %}
-
-set(CMAKE_BUILD_TYPE {{project.buildType}})
