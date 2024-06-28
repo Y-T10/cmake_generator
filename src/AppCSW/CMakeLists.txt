@@ -13,6 +13,7 @@ configure_file(AppBuildConf.cpp.in AppBuildConf.cpp @ONLY)
 target_sources(csw PRIVATE
 AppCSWMain.cpp
 AppBuildConf.cpp
+AppCSWTemplate.cpp
 )
 
 target_include_directories(csw PUBLIC
