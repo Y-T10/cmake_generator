@@ -1,7 +1,0 @@
-#include "AppBuildConf.hpp"
-
-namespace AppCSWConf {
-    const std::string_view ProgramName() noexcept { 
-        return "@PROGRAM_NAME@";
-    }
-}
