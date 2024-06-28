@@ -16,7 +16,6 @@ configure_file(
 # Target sources
 target_sources(csw PRIVATE
 AppCSWMain.cpp
-AppBuildConf.cpp
 AppCSWTemplate.cpp
 )
 
