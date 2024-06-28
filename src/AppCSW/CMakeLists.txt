@@ -19,6 +19,10 @@ target_include_directories(csw PUBLIC
 ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
+target_compile_features(csw PRIVATE
+    cxx_std_23
+)
+
 if(DEFINED MINGW AND (${MINGW}))
 target_link_options(csw PRIVATE -static -static-libgcc -static-libstdc++)
 endif()
