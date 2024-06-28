@@ -98,9 +98,9 @@ const vector<std::filesystem::path> CreateSearchPaths(const ParseResult& result)
     if(!result.count("verbose")){
         return searchPaths;
     }
-    print(stderr, "Search path List\n");
+    fmt::print(stderr, "Search path List\n");
     for(const auto& path: searchPaths){
-        print(stderr, "{}\n", path);
+        fmt::print(stderr, "{}\n", path.string());
     }
     return searchPaths;
 }
@@ -171,11 +171,11 @@ const bool CheckArguments(const ParseResult& result) noexcept {
 
     const auto outputDir = std::filesystem::path(result["output-dir"].as<string>());
     if(!exists(outputDir)){
-        PrintError(format(FMT_STRING("{} does not exist."), outputDir));
+        PrintError(fmt::format(FMT_STRING("{} does not exist."), outputDir.string()));
         return false;
     }
     if(!is_directory(outputDir)){
-        PrintError(format(FMT_STRING("{} is not directory."), outputDir));
+        PrintError(fmt::format(FMT_STRING("{} is not directory."), outputDir.string()));
         return false;
     }
 
