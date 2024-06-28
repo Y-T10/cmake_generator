@@ -1,9 +1,7 @@
 #include "CmpCGAddSubDirs.hpp"
 
-#include <algorithm>
 #include <string>
 #include "CmpRenderRendering.hpp"
-#include "CmpCGUtility.hpp"
 #include <filesystem>
 #include <vector>
 

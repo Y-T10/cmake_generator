@@ -1,9 +1,7 @@
 #include "CmpCGBinary.hpp"
 
-#include <algorithm>
 #include <string>
 #include "CmpRenderRendering.hpp"
-#include "CmpCGUtility.hpp"
 #include "CmpCGTarget.hpp"
 #include <filesystem>
 #include <vector>

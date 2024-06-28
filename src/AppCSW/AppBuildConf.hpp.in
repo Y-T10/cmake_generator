@@ -1,0 +1,13 @@
+#pragma once
+
+#include <string_view>
+
+namespace AppCSWConf {
+    /**
+     * @brief プログラム名を返す
+     * @return "@PROGRAM_NAME@"
+     */
+    constexpr std::string_view ProgramName() noexcept {
+        return "@PROGRAM_NAME@";
+    }
+}

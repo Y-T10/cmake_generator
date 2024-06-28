@@ -7,16 +7,25 @@ get_target_property(PROGRAM_NAME csw NAME)
 if(PROGRAM_NAME EQUAL "PROGRAM_NAME-NOTFOUND")
     message(SEND_ERROR "Program name not found!")
 endif()
-configure_file(AppBuildConf.cpp.in AppBuildConf.cpp @ONLY)
+configure_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/AppBuildConf.hpp.in
+    ${CMAKE_CURRENT_BINARY_DIR}/AppBuildConf.hpp
+    @ONLY
+)
 
 # Target sources
 target_sources(csw PRIVATE
 AppCSWMain.cpp
-AppBuildConf.cpp
+AppCSWTemplate.cpp
 )
 
 target_include_directories(csw PUBLIC
 ${CMAKE_CURRENT_SOURCE_DIR}
+${CMAKE_CURRENT_BINARY_DIR}
+)
+
+target_compile_features(csw PRIVATE
+    cxx_std_23
 )
 
 if(DEFINED MINGW AND (${MINGW}))
