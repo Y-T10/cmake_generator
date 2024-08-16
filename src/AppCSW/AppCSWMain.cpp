@@ -94,7 +94,7 @@ const ParseResult& result, ostream& out) noexcept{
 
     const auto filePath = SearchTemplateFile(templateDirs, fileName.string());
     if(filePath.empty()){
-        PrintError(fmt::format("template file \"{:s}\" not found.", fileName.string()));
+        PrintError(fmt::format("template file \"{:s}\" not found.", fileName.generic_string()));
         return false;
     }
     CompRender::RenderText(out, filePath, *prop);
@@ -131,11 +131,11 @@ const bool CheckArguments(const ParseResult& result) noexcept {
 
     const auto outputDir = std::filesystem::path(result["output-dir"].as<string>());
     if(!exists(outputDir)){
-        PrintError(fmt::format(FMT_STRING("{} does not exist."), outputDir.string()));
+        PrintError(fmt::format(FMT_STRING("{} does not exist."), outputDir.generic_string()));
         return false;
     }
     if(!is_directory(outputDir)){
-        PrintError(fmt::format(FMT_STRING("{} is not directory."), outputDir.string()));
+        PrintError(fmt::format(FMT_STRING("{} is not directory."), outputDir.generic_string()));
         return false;
     }
 
