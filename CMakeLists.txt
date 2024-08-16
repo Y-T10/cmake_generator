@@ -4,7 +4,16 @@ if(${CMAKE_VERSION} VERSION_LESS 3.12)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
 
+# ビルド周りの設定
+option(BUILD_SHARED_LIBS "Build shared libraries." OFF)
+option(CMAKE_BUILD_TYPE "Build type." Release)
+
 project(cmake_generator VERSION 0.0.0 LANGUAGES CXX)
+
+add_compile_options(-Wall $<$<CONFIG:Debug>:-g3>)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_EXTENSIONS ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # GNUのインストール先ディレクトリを使用
 include(GNUInstallDirs)
