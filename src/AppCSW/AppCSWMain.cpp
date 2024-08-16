@@ -166,6 +166,18 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // サブディレクトリが存在しないかを調べる
+    const auto Begin = directory_iterator(outputDir);
+    const auto End   = directory_iterator();
+    if (std::all_of(Begin, End, [](const directory_entry& e){
+        if (!e.is_directory()) {
+            return true;
+        }
+        return !exists(e.path() / path("CMakeLists.txt"));
+    })) {
+        return 1;
+    }
+
     if(!DoGenerate(CmpCG::ArgParseAddSubdir, CmpCG::TplPathAddSubdir, result, outputFile)){
         return 1;
     }
