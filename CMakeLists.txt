@@ -10,6 +10,14 @@ option(CMAKE_BUILD_TYPE "Build type." Release)
 
 project(cmake_generator VERSION 0.0.0 LANGUAGES CXX)
 
+# "compile_commands.json"を生成するかを設定する
+find_program(CLANGD "clangd")
+if (NOT (DEFINED CLANGD-NOTFOUND))
+  set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+elseif ((NOT (DEFINED $ENV{CMAKE_EXPORT_COMPILE_COMMANDS})) AND (DEFINED CMAKE_EXPORT_COMPILE_COMMANDS))
+  set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+endif()
+
 add_compile_options(-Wall $<$<CONFIG:Debug>:-g3>)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_EXTENSIONS ON)
