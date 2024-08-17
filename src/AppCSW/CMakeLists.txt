@@ -36,7 +36,6 @@ endif()
 # パッケージライブラリなら
 target_link_libraries(csw PRIVATE
 CmpRender
-CmpVer
 pantor::inja
 fmt::fmt
 cxxopts::cxxopts
