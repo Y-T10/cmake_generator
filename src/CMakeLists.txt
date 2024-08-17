@@ -1,6 +1,5 @@
 add_subdirectory(CompCodeGen)
 add_subdirectory(CompConfig)
 add_subdirectory(CompFile)
-add_subdirectory(CompVersion)
 add_subdirectory(CompRender)
 add_subdirectory(AppCSW)
